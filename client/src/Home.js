@@ -1,14 +1,38 @@
 import React from 'react';
 import sendLogo from './send2.png';
+import menu from './menu.png';
 import './index.css';
 import Users from './Users';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default function Home(props) {
+
+    // websocket connection
+    // const socket = new WebSocket('ws://localhost:8080');
+
+    // socket.addEventListener('open', function (event) {
+    //     socket.send('Hello Server!');
+    // });
+
+    // socket.addEventListener('message', function (event) {
+    //     console.log('Message from server ', event);
+    //     // getMessages(localStorage.getItem('receiver'));
+    // });
+
+
     // listening on type
     const [inputValue, setInputValue] = React.useState('');
     const handleChange = (e) => {
         setInputValue(e.target.value);
+        // autoresizing textarea
+        const changeHeight = () => {
+            e.target.style.height = 'auto';
+            e.target.style.height = e.target.scrollHeight + 'px';
+            // margin-bottom: calc(154.8px - 3.5rem);
+            const messageArea = document.querySelector('.messagesArea');
+            messageArea.style.marginBottom = `calc(${e.target.scrollHeight}px - 2.7rem)`;
+        }
+        changeHeight();
     }
     // sending message to backend
     const sendMessage = () => {
@@ -25,6 +49,11 @@ export default function Home(props) {
                     console.log('Message sent');
                     getMessages(localStorage.getItem('receiver'));
                     setInputValue('');
+                    // make the textarea height back to normal
+                    const textarea = document.querySelector('.input');
+                    textarea.style.height = 'auto';
+                    const messageArea = document.querySelector('.messagesArea');
+                    messageArea.style.marginBottom = `.6rem`;
                 } else {
                     console.log('Message not sent');
                 }
@@ -86,10 +115,30 @@ export default function Home(props) {
         setMessagesHTML(messagesHTML);
 
     }
+    // make the contact menu visible when triggering the menu button when the dom is loaded
+    // document.addEventListener('DOMContentLoaded', () => {
+    function menuClicked() {
+        const menuBtn = document.querySelector('.menu');
+        const usersSideBar = document.querySelector('.usersSideBar');
+        console.log(usersSideBar.dataset.visible);
+        if (usersSideBar.dataset.visible === 'false') {
+            usersSideBar.style.transform = 'translateX(100%)';
+            usersSideBar.style.transition = 'all .5s ease-in-out';
+            usersSideBar.dataset.visible = 'true';
+            return;
+        } if (usersSideBar.dataset.visible === 'true') {
+            usersSideBar.style.transform = 'translateX(0%)';
+            usersSideBar.style.transition = 'all .5s ease-in-out';
+            usersSideBar.dataset.visible = 'false';
+            return;
+        }
+    }
+    // });
+
     return (
         <div className="container">
             {/* this part contains all users */}
-            <div className='usersSideBar'>
+            <div className='usersSideBar' data-visible='false'>
                 <div className='header-name'>
                     <h2>Contacts</h2>
                 </div>
@@ -98,13 +147,18 @@ export default function Home(props) {
             {/* end of users sidebar */
             }
             <div className='header'>
-
+                <div className='menu' onClick={menuClicked}>
+                    <img src={menu} alt='menu' />
+                </div>
+                <div className='receiver'>
+                    <h2>{localStorage.getItem('receiver')}</h2>
+                </div>
             </div>
             <div className='messagesArea'>
                 {messagesHTML}
             </div>
             <div className='typingBar'>
-                <input type='text' placeholder='Type something...' className='input' onChange={(e) => handleChange(e)} value={inputValue} />
+                <textarea placeholder='Type something...' className='input' onChange={(e) => handleChange(e)} value={inputValue} id='autoresizing'></textarea>
                 <div className='sendButton' onClick={sendMessage}>
                     <img src={sendLogo} alt='send button' className='sendBtn' />
                 </div>

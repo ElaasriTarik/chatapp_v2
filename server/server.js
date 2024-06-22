@@ -3,6 +3,20 @@ const app = express();
 const port = process.env.PORT || 5000;
 const path = require('path');
 
+const WebSocket = require('ws');
+
+const server = require('http').createServer(app);
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function incoming(message) {
+        console.log('received: %s', message);
+    });
+
+    ws.send('something');
+});
+
+
 // app.use(express.static(path.join(__dirname, '../client/build')));
 // app.get('/', (req, res) => {
 //     res.sendFile(path.join(__dirname + '../client/build/index.html'));
@@ -50,7 +64,7 @@ app.get('/submit-data', (req, res) => {
 
 app.post('/sendMessage', (req, res) => {
     const { message, receiver, sender } = req.body;
-    console.log(message, receiver, sender);
+    // console.log(message, receiver, sender);
     const data = {
         content: message,
         receiver: receiver,

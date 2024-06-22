@@ -29,7 +29,7 @@ export default function Users({ data, getMessagesFunc }) {
             {
                 data.username !== localStorage.getItem('currUser') &&
                 <div key={data.key} className='user' id={data.username} onClick={(e) => handleClick(e)} >
-                    <p>{data.username}</p>
+                    <p className="uncopiable">{data.username}</p>
                 </div>
             }
         </>

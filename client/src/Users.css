@@ -1,10 +1,10 @@
 .usersSideBar {
-    width: 60%;
+    width: 67%;
     height: calc(100% - 3rem);
     background-color: #dde6ef;
     position: fixed;
     top: 0rem;
-    left: -61%;
+    left: -68%;
     overflow-x: hidden;
     border-right: 1px solid #e9ecef;
     position: absolute;
@@ -13,6 +13,7 @@
     align-items: center;
     gap: .6rem;
     z-index: 1;
+    height: 100%;
 
 }
 
@@ -62,4 +63,8 @@
 
 .selectedContact {
     background-color: #afc1d5;
+}
+
+.uncopiable {
+    user-select: none;
 }
