@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.inputFields {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e2e2e2;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    gap: 1rem;
+    width: 90%;
+    height: auto;
+}
+
+.inputFields>input {
+    height: 2.4rem;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.createButton {
+    padding: .4rem 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+
+}

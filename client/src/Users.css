@@ -1,0 +1,65 @@
+.usersSideBar {
+    width: 60%;
+    height: calc(100% - 3rem);
+    background-color: #dde6ef;
+    position: fixed;
+    top: 0rem;
+    left: -61%;
+    overflow-x: hidden;
+    border-right: 1px solid #e9ecef;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+    z-index: 1;
+
+}
+
+/* .usersSideBar:hover {
+    transform: translateX(82%);
+    transition: transform .3s;
+} */
+
+.user {
+    width: 100%;
+    height: 2.6rem;
+    background-color: #fff;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: .6rem;
+    cursor: pointer;
+}
+
+.user:hover {
+    background-color: #e9ecef;
+}
+
+.user p {
+    font-size: 1.1rem;
+
+}
+
+.header-name h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0;
+    color: dimgray;
+}
+
+.header-name {
+    width: 100%;
+    height: 3rem;
+    background-color: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 0;
+}
+
+.selectedContact {
+    background-color: #afc1d5;
+}
