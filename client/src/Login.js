@@ -14,7 +14,7 @@ export default function Login() {
             [e.target.id]: e.target.value
         }));
     }
-    console.log(inputValues);
+    // console.log(inputValues);
     // sending message to backend
     function createAcc() {
         fetch('/login', {
@@ -26,9 +26,12 @@ export default function Login() {
         })
             .then(response => response.json())
             .then(data => {
-                if (data.success === true) {
+                console.log(data);
+                if (data.authenticated === true) {
                     console.log('Log in success');
                     // save the sender's username/id in local storage
+                    // get user from cookie 
+
                     localStorage.setItem('currUser', inputValues.username);
                     // go to home page after login succes
                     window.location.href = '/';

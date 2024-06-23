@@ -7,20 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default function Home(props) {
 
-    // websocket connection
-    // const socket = new WebSocket('ws://localhost:8080');
-
-    // socket.addEventListener('open', function (event) {
-    //     socket.send('Hello Server!');
-    // });
-
-    // socket.addEventListener('message', function (event) {
-    //     console.log('Message from server ', event);
-    //     // getMessages(localStorage.getItem('receiver'));
-    // });
-
-
-    // listening on type
+    // listening on-type
     const [inputValue, setInputValue] = React.useState('');
     const handleChange = (e) => {
         setInputValue(e.target.value);
@@ -133,7 +120,10 @@ export default function Home(props) {
             return;
         }
     }
-    // });
+
+    function signoutTrigger() {
+        localStorage.clear();
+    }
 
     return (
         <div className="container">
@@ -143,6 +133,9 @@ export default function Home(props) {
                     <h2>Contacts</h2>
                 </div>
                 {usersData.map(user => <Users key={user.id} data={user} getMessagesFunc={(receiver) => getMessages(receiver)} />)}
+                <div className='signouttArea'>
+                    <a href='/login' className='signout' onClick={signoutTrigger}>Sign-out</a>
+                </div>
             </div>
             {/* end of users sidebar */
             }

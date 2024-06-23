@@ -1,7 +1,17 @@
 const express = require('express');
+const session = require('express-session');
+const store = new session.MemoryStore();
 const app = express();
 const port = process.env.PORT || 5000;
 const path = require('path');
+// making sessions for users
+
+app.use(session({
+    secret: 'some secret',
+    cookie: { maxAge: 30000 },
+    saveUninitialized: false,
+    store
+}));
 
 const WebSocket = require('ws');
 
@@ -10,10 +20,16 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
+        // Broadcast incoming message to all clients except the sender
         console.log('received: %s', message);
+        wss.clients.forEach(function each(client) {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(message);
+            }
+        });
     });
 
-    ws.send('something');
+    ws.send('Welcome to the chat!');
 });
 
 
@@ -22,7 +38,7 @@ wss.on('connection', function connection(ws) {
 //     res.sendFile(path.join(__dirname + '../client/build/index.html'));
 
 // });
-const loginAdmin = 'mysqladmin';
+const loginAdmin = 'sqladmin';
 const password = process.env.PASSWORD;
 const host = process.env.HOST;
 
@@ -32,7 +48,7 @@ const connection = mysql.createConnection({
     host: host,
     user: loginAdmin,
     password: password,
-    database: 'chatapp'
+    database: 'chatappDB'
 });
 
 connection.connect((err) => {
@@ -46,7 +62,12 @@ connection.connect((err) => {
 });
 
 app.use(express.json());
-
+// middleware function
+app.use((req, res, next) => {
+    console.log(store);
+    console.log('Time:', Date.now());
+    next();
+});
 app.get('/', (req, res) => {
     res.send('Hello from node!');
 });
@@ -134,6 +155,7 @@ app.post('/createAccount', (req, res) => {
 //login
 app.post('/login', (req, res) => {
     const data = req.body;
+    console.log(req.sessionID);
     connection.query('SELECT * FROM users WHERE username = ?', data.username, (err, response) => {
         if (err) {
             throw err;
@@ -141,10 +163,18 @@ app.post('/login', (req, res) => {
 
         if (response.length > 0 && data.password === response[0].password) {
             console.log('Login success');
-            res.json({
-                success: true,
-                message: 'Login successfull',
-            });
+            if (req.session.authenticated) {
+                res.json(req.session)
+            } else {
+                req.session.authenticated = true;
+                req.session.user = {
+                    username: data.username,
+                    password: data.password,
+                    success: true
+                }
+                res.json(req.session);
+            }
+
         } else {
             console.log('Login failed');
             res.json({
