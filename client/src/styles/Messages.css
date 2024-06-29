@@ -1,0 +1,112 @@
+.messagesContainer {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem 0;
+    gap: .5rem;
+    position: relative;
+
+}
+
+.messagesContainer h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #252525;
+    align-self: flex-start;
+    margin-bottom: .6rem;
+    padding-left: .4rem;
+    width: 100%;
+}
+
+.message-req-tag {
+    display: flex;
+    width: 100%;
+    height: 4rem;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    padding: .5rem;
+    padding: .5rem;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #c9c9c9;
+    position: relative;
+    cursor: pointer;
+}
+
+/* .message-sugg-tag {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* padding: 1rem .4rem; */
+/* gap: .5rem;
+} */
+.message-req-tag .messageInfo {
+    margin-right: auto;
+}
+
+.message-req-tag .messageProfilePic img {
+    max-width: 2.8rem;
+    height: auto;
+    border-radius: 50%;
+}
+
+.message-req-tag .contactName {
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.message-req-tag .lastMsgDisplay {
+    font-size: .85rem;
+    font-weight: 500;
+    color: #252525;
+}
+
+.message-req-tag .msgMoreIcon,
+.messagesHeader .msgMoreIcon {
+    cursor: pointer;
+    padding: .5rem;
+    max-width: 2.1rem;
+}
+
+
+.messagesHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 3rem;
+    gap: .7rem;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-left: .4rem;
+    padding-right: .6rem;
+}
+
+.messagesHeader h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #252525;
+    margin-right: auto;
+    margin-bottom: 0.3rem;
+}
+
+.messagesHeader .backButton img {
+    max-width: 1.8rem;
+    height: auto;
+    cursor: pointer;
+    align-self: flex-start;
+}

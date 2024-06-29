@@ -1,0 +1,38 @@
+.optionsContainer a {
+    text-decoration: none;
+    color: hsl(0, 0%, 15%);
+    font-size: 20px;
+    font-weight: 500;
+    margin-right: auto;
+}
+
+.optionsContainer .options:hover {
+    cursor: pointer;
+    background-color: hsl(0, 0%, 88.2%);
+}
+
+.optionsContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .8rem;
+    padding: 1rem .5rem;
+}
+
+.optionsContainer .options {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: .6rem;
+    box-shadow: 0 0 5px #c9c9c9;
+    padding: .5rem .4rem;
+    border-radius: 3px;
+}
+
+.optionsContainer .options img {
+    max-width: 1.8rem;
+    height: auto;
+}
