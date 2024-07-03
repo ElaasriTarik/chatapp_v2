@@ -26,22 +26,22 @@ export default function Login() {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-                if (data.authenticated === true) {
+                if (data.success === true) {
+                    console.log(data);
                     console.log('Log in success');
                     // save the sender's username/id in local storage
                     // get user from cookie 
 
                     localStorage.setItem('currUser', inputValues.username);
+                    localStorage.setItem('currUserID', data.id);
                     // go to home page after login succes
                     window.location.href = '/';
                 }
-                console.log(data.message);
             })
             .catch(error => console.error('Error logging in:', error));
     }
     return (
-        <div className="container">
+        <div className="loginContainer">
             <h1>Log-in</h1>
             <div className='inputFields'>
                 <input type='text' placeholder='Username' className='input' onChange={(e) => handleChange(e)} id='username' />

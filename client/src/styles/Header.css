@@ -22,8 +22,13 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    position: relative;
 }
 
 .header .header-sections .section:hover {
     background-color: #fff;
+}
+
+.header .header-sections .section a {
+    position: relative;
 }

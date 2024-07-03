@@ -5,11 +5,13 @@ import messages from './icons/messages.png';
 import bell from './icons/bell.png';
 import menu from './icons/menu.png';
 import './styles/Header.css';
+import RedIndicator from './components/RedIndicator';
 export default function Header() {
     return (
         <div className="header">
             <div className='header-sections'>
                 <div className='section homeIcon'>
+
                     <a href='/'>
                         <img src={home} alt='home' />
                     </a>

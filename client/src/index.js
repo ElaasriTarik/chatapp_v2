@@ -22,8 +22,8 @@ root.render(
       <Routes>
         {/* <Route path="/" element={<Posts />} /> */}
         <Route path="/fetch" element={<FetchData />} />
-        <Route path="/createAccount" element={<CreateAccounts />} />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/createAccount" element={<CreateAccounts />} /> */}
+        {/* <Route path="/login" element={<Login />} /> */}
 
         {/* <Route path='/messages' element={<Messages />} /> */}
         {/* <Route path='/friends' element={<Friends />} /> */}

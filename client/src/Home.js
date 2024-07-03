@@ -9,25 +9,7 @@ import Users from './Users';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 export default function Home(props) {
-
-    // listening on-type
-
-
-
-    // get all users
     const [usersData, setUsersData] = React.useState([]);
-
-    React.useEffect(() => {
-        const getUsers = () => {
-            fetch('/getUsers')
-                .then(response => response.json())
-                .then(data => {
-                    setUsersData(data);
-                })
-                .catch(error => console.error('Error fetching users:', error));
-        };
-        getUsers();
-    }, []);
 
     // get all messages between two people
     const [messages, setMessages] = React.useState([]);

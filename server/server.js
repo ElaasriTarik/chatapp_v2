@@ -44,6 +44,8 @@ const host = process.env.HOST;
 
 // connect to db
 const mysql = require('mysql');
+const { connect } = require('http2');
+const { resourceLimits } = require('worker_threads');
 const connection = mysql.createConnection({
     host: host,
     user: loginAdmin,
@@ -146,16 +148,13 @@ app.post('/createAccount', (req, res) => {
                     });
                 }
             });
-
         }
-
-
     });
 })
 //login
 app.post('/login', (req, res) => {
     const data = req.body;
-    console.log(req.sessionID);
+    // console.log(req.sessionID);
     connection.query('SELECT * FROM users WHERE username = ?', data.username, (err, response) => {
         if (err) {
             throw err;
@@ -163,18 +162,13 @@ app.post('/login', (req, res) => {
 
         if (response.length > 0 && data.password === response[0].password) {
             console.log('Login success');
-            if (req.session.authenticated) {
-                res.json(req.session)
-            } else {
-                req.session.authenticated = true;
-                req.session.user = {
-                    username: data.username,
-                    password: data.password,
-                    success: true
-                }
-                res.json(req.session);
-            }
-
+            res.json({
+                success: true,
+                username: response[0].username,
+                fullname: response[0].fullname,
+                id: response[0].id
+            })
+            console.log(res);
         } else {
             console.log('Login failed');
             res.json({
@@ -186,7 +180,7 @@ app.post('/login', (req, res) => {
 
 })
 // fettch all users
-app.get('/getUsers', (req, res) => {
+app.get('/friends', (req, res) => {
     connection.query('SELECT * FROM users', (err, response) => {
         if (err) {
             throw err;
@@ -195,6 +189,7 @@ app.get('/getUsers', (req, res) => {
             return {
                 id: user.id,
                 username: user.username,
+                fullname: user.fullname,
                 date_created: user.date_created,
                 password: ''
             }
@@ -202,6 +197,60 @@ app.get('/getUsers', (req, res) => {
         res.json(users);
     });
 
+})
+
+// handling invites
+app.post('/inviting', (req, res) => {
+    const { recepientId, inviterId, inviter_name, recepient_name } = req.body;
+    // insert the invite into the friends table
+    const checkQuery = "SELECT * FROM friends WHERE user_id1 = ? AND user_id2 = ? AND status = 'pending'";
+
+    connection.query(checkQuery, [recepientId, inviterId], (checkErr, checkResult) => {
+        if (checkErr) {
+            console.error('Error checking for existing invite:', checkErr);
+            return res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+
+        if (checkResult.length > 0) {
+            // Invite already exists
+            console.log('invite already sent');
+            return res.json({ success: false, message: 'Invite already sent' });
+        } else {
+            // Insert the invite into the friends table
+            const insertQuery = "INSERT INTO friends(user_id1, user_id2, inviter_name, recepient_name ,status) VALUES (?, ?, ?, ?, 'pending')";
+            connection.query(insertQuery, [inviterId, recepientId, inviter_name, recepient_name], (insertErr, insertResult) => {
+                if (insertErr) {
+                    console.error('Error inserting invite:', insertErr);
+                    return res.status(500).json({ success: false, message: 'Internal server error' });
+                }
+
+                console.log('Invite sent');
+                res.json({ success: true, message: 'Invite sent' });
+            });
+        }
+    });
+})
+
+// checking for any invites for a certain user
+
+app.post('/checkforInvites', (req, res) => {
+    const { inviterId } = req.body
+    console.log(inviterId);
+    const checkInvites = 'SELECT * FROM friends WHERE user_id2 = ?';
+    connection.query(checkInvites, inviterId, (err, result) => {
+        if (err) throw err;
+
+        if (result.length > 0) {
+            console.log('you have', result.length, 'invites');
+            res.json({ success: true, result: result })
+        }
+    })
+})
+
+// get a certain user from database
+app.get('/getAuser', (req, res) => {
+    const { user } = req.body
+    console.log('user', user);
 })
 
 
