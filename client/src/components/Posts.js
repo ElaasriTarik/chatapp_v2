@@ -1,11 +1,8 @@
 import React from 'react';
 import '../styles/Posts.css';
-import likeBtn from '../icons/like-full.png';
-import dislikeBtn from '../icons/dislike-full.png';
-import commentBtn from '../icons/comment.png';
-import saveBtn from '../icons/save.png';
 
-import Comments from './Comments';
+import PostCreateComponent from './PostCreateComponent';
+
 
 export default function Posts({ data }) {
     // state of textarea
@@ -18,47 +15,54 @@ export default function Posts({ data }) {
     const handleComments = (e) => {
         setComments(!comments);
     }
+    // handling the sharing of the post
+    const handlePostBtn = () => {
+        fetch('/post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                content: textArea,
+                user_id: localStorage.getItem('currUserID'),
+                name: localStorage.getItem('currUser')
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    console.log('post created');
+                }
+            })
+    }
+
+    // getting all post from the database
+    const [posts, setPosts] = React.useState([]);
+    React.useEffect(() => {
+        fetch('/getPosts')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setPosts(data);
+            })
+    }, [])
+
+    // end of javascript
+    // start of react
     return (
         <div className='postsPage'>
             <div className='writeYourPost'>
                 <h1>Write Your Post</h1>
                 <textarea placeholder='what are you thinking?' value={textArea} onChange={handleChange}></textarea>
-                <button className='postBtn'>Post</button>
+                <button className='postBtn' onClick={handlePostBtn}>Post</button>
             </div>
             <div className='postsArea'>
                 <h1>Posts</h1>
-                <div className='outerPost'>
-                    <div className='post'>
-                        <div className='postHeader'>
-                            <div className='profilePic'>
-                                <img src='https://via.placeholder.com/150' alt='profile' />
-                            </div>
-                            <div className='postInfo'>
-                                <h3 className='postAuthor'>John Doe</h3>
-                                <p className='postDate'>yesterday at 12</p>
-                            </div>
-                        </div>
-                        <div className='postContent'>
-                            <p>Here is the post content, some more content. a little more content...</p>
-                        </div>
-                        <div className='postActions'>
-                            <button className='likeBtn'>
-                                <img src={likeBtn} alt='like' />
-                            </button>
-                            <button className='dislikelikeBtn'>
-                                <img src={dislikeBtn} alt='like' />
-                            </button>
-                            <button className='commentBtn' onClick={handleComments}>
-                                <img src={commentBtn} alt='like' />
-                            </button>
-                            <button className='saveBtn'>
-                                <img src={saveBtn} alt='like' />
-                            </button>
-                        </div>
-                    </div>
-
-                    {comments && <Comments />}
-                </div>
+                {
+                    posts.map((post) => {
+                        return <PostCreateComponent key={post.post_id} handleComments={handleComments} comments={comments} post={post} />
+                    })
+                }
             </div>
         </div >
     )

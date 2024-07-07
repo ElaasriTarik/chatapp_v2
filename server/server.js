@@ -50,7 +50,8 @@ const connection = mysql.createConnection({
     host: host,
     user: loginAdmin,
     password: password,
-    database: 'chatappDB'
+    database: 'chatappDB',
+    multipleStatements: true
 });
 
 connection.connect((err) => {
@@ -236,7 +237,7 @@ app.post('/inviting', (req, res) => {
 app.post('/checkforInvites', (req, res) => {
     const { inviterId } = req.body
     console.log(inviterId);
-    const checkInvites = 'SELECT * FROM friends WHERE user_id2 = ?';
+    const checkInvites = "SELECT * FROM friends WHERE user_id2 = ? AND status = 'pending'";
     connection.query(checkInvites, inviterId, (err, result) => {
         if (err) throw err;
 
@@ -245,6 +246,119 @@ app.post('/checkforInvites', (req, res) => {
             res.json({ success: true, result: result })
         }
     })
+})
+
+// delete a request
+app.post('/delete_request', (req, res) => {
+    const { user_id1, user_id2 } = req.body
+    console.log(user_id1, user_id2);
+
+    const query = "DELETE FROM friends WHERE user_id1 = ? AND user_id2 = ? AND status = 'pending'";
+    connection.query(query, [user_id1, user_id2], (err, response) => {
+        if (err) throw err;
+
+        res.json({ success: true });
+    })
+})
+
+// accept request
+app.post('/accept_request', (req, res) => {
+    const { user_id1, user_id2 } = req.body;
+    console.log(user_id1, user_id2);
+    const query = "UPDATE friends SET status = 'accepted' WHERE user_id1 = ? AND user_id2 = ?";
+    connection.query(query, [user_id1, user_id2], (err, response) => {
+        if (err) throw err;
+        res.json({ success: true });
+    })
+})
+// handling post
+app.post('/post', (req, res) => {
+    const { content, user_id, name } = req.body;
+    const data = {
+        content: content,
+        user_id: user_id,
+        name: name,
+        post_date: new Date()
+    }
+    const query = 'INSERT INTO posts SET ?';
+    connection.query(query, data, (err, response) => {
+        if (err) throw err;
+        res.json({
+            success: true,
+            message: 'Post created',
+            data: data
+        });
+    });
+})
+
+// fetching posts from the database
+app.get('/getPosts', (req, res) => {
+    // const query = 'SELECT * FROM posts ORDER BY post_date DESC';
+    const query = `
+SELECT posts.*,
+       (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.post_id) AS like_count,
+       (SELECT COUNT(*) FROM dislikes WHERE dislikes.post_id = posts.post_id) AS dislike_count 
+FROM posts`;
+    connection.query(query, (err, response) => {
+        if (err) throw err;
+        res.json(response);
+    });
+})
+
+// like a post
+app.post('/like', (req, res) => {
+    const { post_id, user_id, liked_by } = req.body;
+    const data = {
+        post_id: post_id,
+        user_id: user_id,
+        liked_by: liked_by,
+        like_date: new Date()
+    }
+    // check if user already liked that post
+    const checkQuery = 'SELECT * FROM likes WHERE post_id = ? AND user_id = ? AND liked_by = ?';
+    connection.query(checkQuery, [post_id, user_id, liked_by], (err, response) => {
+        if (err) throw err;
+        if (response.length > 0) {
+            res.json({
+                success: false,
+                message: 'You already liked this post'
+            });
+            const query = 'DELETE FROM likes WHERE post_id = ? AND user_id = ? AND liked_by = ?';
+            connection.query(query, [post_id, user_id, liked_by], (err, response) => {
+                if (err) throw err;
+            });
+            return false;
+        } else {
+            const query = 'INSERT INTO likes SET ?; DELETE FROM dislikes WHERE post_id = ? AND user_id = ? AND disliked_by = ?';
+            connection.query(query, [data, post_id, user_id, liked_by], (err, response) => {
+                if (err) throw err;
+                res.json({
+                    success: true
+                });
+            });
+
+        }
+    })
+})
+
+// deslike a post 
+app.post('/dislike', (req, res) => {
+    const { post_id, user_id, disliked_by } = req.body;
+    const data = {
+        post_id: post_id,
+        user_id: user_id,
+        disliked_by: disliked_by,
+        like_date: new Date()
+    }
+    const query = 'DELETE FROM likes WHERE post_id = ? AND user_id = ? AND liked_by = ?';
+    connection.query(query, [post_id, user_id, disliked_by], (err, response) => {
+        if (err) throw err;
+        const query = "INSERT INTO dislikes SET ?";
+        connection.query(query, data, (err, response) => {
+            if (err) throw err;
+            res.json({ success: true });
+        });
+    });
 })
 
 // get a certain user from database

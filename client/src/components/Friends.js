@@ -3,6 +3,7 @@ import '../styles/Friends.css'
 import FriendList from './FriendDisplay';
 import RedIndicator from './RedIndicator';
 import FriendReqs from './Friend_reqs';
+import MyFriendsList from './MyFriendsList';
 import { readyException } from 'jquery';
 
 
@@ -68,14 +69,21 @@ export default function Friends() {
     const changePage = () => {
         setPageDisplay(prev => !prev);
     }
+    // display friends
+    const [friendsDisplay, setFriendsDisplay] = React.useState(false);
+    const displayFriends = () => {
+        setFriendsDisplay(prev => !prev);
+        setPageDisplay(false);
+    }
     return (
         <div className='friendsContainer'>
             <div className='friends-actions'>
-                <button className='friendsBtn'>
+                <button className='friendsBtn' onClick={displayFriends}>
                     Friends</button>
                 <button className='friendReqBtn' onClick={changePage}>
                     {invitesStatus && <RedIndicator />}
-                    Friend Requests</button>
+                    {!pageDisplay ? 'Friend Requests' : 'Suggestions'}
+                </button>
             </div>
             {!pageDisplay ? <div className='firends-sugg-tag'>
                 <h2>Suggestions</h2>
@@ -84,7 +92,6 @@ export default function Friends() {
                         return <FriendList name={item.fullname} key={item.id} userId={item.id} handleInvite={handleInvite} />
                     })
                 }
-
             </div> :
                 <FriendReqs invites={invites} />
             }

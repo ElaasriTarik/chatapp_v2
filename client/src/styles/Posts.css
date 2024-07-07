@@ -23,6 +23,7 @@
     border-radius: 5px;
     box-shadow: 0 0 5px #c9c9c9;
     padding: .5rem;
+    margin-top: .5rem;
 }
 
 .postsPage .writeYourPost h1 {
@@ -52,7 +53,7 @@
     width: 3rem;
     height: auto;
     background-color: #bff4f0;
-    background-color: #fff;
+    background-color: #f5f3f3;
     border: none;
     outline: none;
     cursor: pointer;
@@ -60,10 +61,11 @@
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    padding: 0.3rem 0.5rem;
+    padding: 0.5rem 0.8rem;
     margin-bottom: .3rem;
     margin-right: .2rem;
     font-weight: 600;
+    color: #252525;
 }
 
 .postsPage .postsArea {
@@ -93,7 +95,7 @@
     align-items: flex-start;
     padding: .5rem;
     border-radius: 5px;
-    box-shadow: 0 0 5px #c9c9c9;
+    box-shadow: 0 0 .9px #c9c9c9;
     position: relative;
 }
 
@@ -101,6 +103,16 @@
     gap: 1rem;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: auto;
+    min-height: 7rem;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    align-items: flex-start;
+
+    border-radius: 5px;
+    position: relative;
 }
 
 .postsPage .post .postHeader,
@@ -170,7 +182,7 @@
 }
 
 .postsPage .post .postContent p {
-    color: #252525;
+    color: #373737;
     font-size: 0.9rem;
     font-weight: 500;
 }
@@ -192,6 +204,10 @@
     cursor: pointer;
     border-bottom: 2px solid transparent;
     padding: .1rem .4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .3rem;
 }
 
 .postActions button:hover {
@@ -199,7 +215,7 @@
 }
 
 .postActions button img {
-    max-width: 1.3rem;
+    max-width: 1rem;
     height: auto;
 }
 

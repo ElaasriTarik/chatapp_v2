@@ -45,7 +45,7 @@ export default function Login() {
             <h1>Log-in</h1>
             <div className='inputFields'>
                 <input type='text' placeholder='Username' className='input' onChange={(e) => handleChange(e)} id='username' />
-                <input type='text' placeholder='Password' className='input' onChange={(e) => handleChange(e)} id='password' />
+                <input type='password' placeholder='Password' className='input' onChange={(e) => handleChange(e)} id='password' />
                 <button className='createButton' onClick={createAcc}>Log-in</button>
                 <p>Don't have an account? <Link to='/createAccount'>Create</Link></p>
             </div>
