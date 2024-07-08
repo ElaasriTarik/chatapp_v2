@@ -4,16 +4,41 @@ import FriendList from './FriendDisplay';
 import RedIndicator from './RedIndicator';
 import FriendReqs from './Friend_reqs';
 import MyFriendsList from './MyFriendsList';
-import { readyException } from 'jquery';
+
 
 
 export default function Friends() {
+    // toggle between friends and suggestions and requests
+    const [currentPage, setCurrentPage] = React.useState('suggestions'); // Default to 'suggestions'
+
+    // Handlers to set the current page
+    const displayFriends = () => setCurrentPage('friends');
+    const displayFriendRequests = () => setCurrentPage('friendRequests');
+    const displaySuggestions = () => setCurrentPage('suggestions');
+
     // get list of users from the database
     const [users, setUsers] = React.useState([])
     function getUsers() {
-        fetch('/friends')
-            .then(res => res.json())
-            .then(res => setUsers(res))
+        fetch('/friends', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: parseInt(localStorage.getItem('currUserID'), 10) })
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return res.json();
+            })
+            .then(res => {
+                console.log(res);
+                setUsers(res);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
     }
     React.useEffect(() => {
         getUsers();
@@ -65,36 +90,45 @@ export default function Friends() {
         checkForInvites();
     }, []);
     // which page to display
-    const [pageDisplay, setPageDisplay] = React.useState(false);
-    const changePage = () => {
-        setPageDisplay(prev => !prev);
-    }
+    // const [pageDisplay, setPageDisplay] = React.useState(false);
+    // const changePage = () => {
+    //     setPageDisplay(prev => !prev);
+    // }
     // display friends
-    const [friendsDisplay, setFriendsDisplay] = React.useState(false);
-    const displayFriends = () => {
-        setFriendsDisplay(prev => !prev);
-        setPageDisplay(false);
-    }
+    // const [friendsDisplay, setFriendsDisplay] = React.useState(false);
+    // const displayFriends = () => {
+    //     setFriendsDisplay(true);
+    //     setPageDisplay(false);
+    //     setInvitesStatus(false);
+    // }
     return (
         <div className='friendsContainer'>
             <div className='friends-actions'>
                 <button className='friendsBtn' onClick={displayFriends}>
                     Friends</button>
-                <button className='friendReqBtn' onClick={changePage}>
+                <button className='friendReqBtn' onClick={displayFriendRequests}>
                     {invitesStatus && <RedIndicator />}
-                    {!pageDisplay ? 'Friend Requests' : 'Suggestions'}
+                    Friend Requests
+                </button>
+                <button className='suggestionsBtn' onClick={displaySuggestions}>
+                    Suggestions
                 </button>
             </div>
-            {!pageDisplay ? <div className='firends-sugg-tag'>
-                <h2>Suggestions</h2>
-                {
-                    users.map((item) => {
-                        return <FriendList name={item.fullname} key={item.id} userId={item.id} handleInvite={handleInvite} />
-                    })
-                }
-            </div> :
+            {currentPage === 'suggestions' && (
+                <div className='friends-sugg-tag'>
+                    <h2>Suggestions</h2>
+                    {users.map((item) => (
+                        <FriendList name={item.fullname} key={item.id} userId={item.id} handleInvite={handleInvite} />
+                    ))}
+                </div>
+            )}
+            {currentPage === 'friends' && (
+                <MyFriendsList />
+            )}
+            {currentPage === 'friendRequests' && (
                 <FriendReqs invites={invites} />
-            }
+            )}
+
         </div>
     )
 }

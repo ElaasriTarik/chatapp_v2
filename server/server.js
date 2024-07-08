@@ -21,7 +21,7 @@ const wss = new WebSocket.Server({ server });
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
         // Broadcast incoming message to all clients except the sender
-        console.log('received: %s', message);
+        // console.log('received: %s', message);
         wss.clients.forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
                 client.send(message);
@@ -66,11 +66,11 @@ connection.connect((err) => {
 
 app.use(express.json());
 // middleware function
-app.use((req, res, next) => {
-    console.log(store);
-    console.log('Time:', Date.now());
-    next();
-});
+// app.use((req, res, next) => {
+//     console.log(store);
+//     console.log('Time:', Date.now());
+//     next();
+// });
 app.get('/', (req, res) => {
     res.send('Hello from node!');
 });
@@ -181,21 +181,14 @@ app.post('/login', (req, res) => {
 
 })
 // fettch all users
-app.get('/friends', (req, res) => {
-    connection.query('SELECT * FROM users', (err, response) => {
+app.post('/friends', (req, res) => {
+    const { user_id } = req.body;
+    connection.query('SELECT id, username, fullname, date_created, bio FROM users WHERE id != ?', user_id, (err, response) => {
         if (err) {
             throw err;
         };
-        const users = response.map(user => {
-            return {
-                id: user.id,
-                username: user.username,
-                fullname: user.fullname,
-                date_created: user.date_created,
-                password: ''
-            }
-        });
-        res.json(users);
+
+        res.json(response);
     });
 
 })
@@ -242,7 +235,6 @@ app.post('/checkforInvites', (req, res) => {
         if (err) throw err;
 
         if (result.length > 0) {
-            console.log('you have', result.length, 'invites');
             res.json({ success: true, result: result })
         }
     })
@@ -367,7 +359,22 @@ app.get('/getAuser', (req, res) => {
     console.log('user', user);
 })
 
-
+// fetch all my friends
+app.post('/getMyFriends', (req, res) => {
+    const { user_id } = req.body;
+    const query = 'SELECT * FROM friends WHERE (user_id1 = ? OR user_id2 = ?) AND status = "accepted"';
+    connection.query(query, [parseInt(user_id), parseInt(user_id)], (err, response) => {
+        if (err) throw err;
+        response = response.map(friend => {
+            return {
+                friend_id: friend.user_id1 == user_id ? friend.user_id2 : friend.user_id1,
+                recepient_name: friend.recepient_name,
+                inviter_name: friend.inviter_name
+            }
+        });
+        res.json(response);
+    });
+})
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

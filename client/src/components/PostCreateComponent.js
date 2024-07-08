@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Posts.css';
-import likeBtn from '../icons/like-full.png';
-import dislikeBtn from '../icons/dislike-full.png';
+import likeBtn from '../icons/like.png';
+import dislikeBtn from '../icons/dislike.png';
 import commentBtn from '../icons/comment.png';
 import saveBtn from '../icons/save.png';
 

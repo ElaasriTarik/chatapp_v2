@@ -3,9 +3,9 @@ import FriendRequestDisplay from './FriendRequestDisplay';
 
 
 export default function FriendReqs({ invites }) {
-
+    console.log(invites);
     return (
-        <div className='firends-sugg-tag friend-reqs-page'>
+        <div className='friends-sugg-tag friend-reqs-page'>
             <h2>Friend requests</h2>
             {
                 invites.map((item) => {
