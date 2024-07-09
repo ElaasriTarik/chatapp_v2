@@ -52,6 +52,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    right: 0;
 }
 
 .input {
@@ -69,7 +70,9 @@ body {
     margin-bottom: .3rem;
     margin-left: .3rem;
     padding: .2rem 1rem;
-
+    box-shadow: 0 0 5px #c9c9c9;
+    box-shadow: 0 0 9px #e0e0e0;
+    border: .5px solid #252525;
 }
 
 .sendButton {
@@ -92,8 +95,11 @@ body {
 }
 
 .sendBtn {
-    max-width: 1.7rem;
+    max-width: 2.4rem;
     height: auto;
+    border: 1px solid #252525;
+    border-radius: 50%;
+    padding: .3rem;
 }
 
 .messagesArea {
@@ -106,8 +112,8 @@ body {
 
     padding: .3rem;
     overflow: scroll;
-    padding-top: 1rem;
-    margin-bottom: .6rem;
+    padding-top: 3.5rem;
+    background-color: #fff;
 }
 
 /* hiding scroll bar for better UI */
@@ -125,7 +131,7 @@ body {
 
 .messagesArea .message {
     width: max-content;
-    max-width: 70%;
+    max-width: 80%;
     height: auto;
     display: flex;
     flex-wrap: wrap;
@@ -140,23 +146,28 @@ body {
 
 .messagesArea .message p {
     font-size: .8rem;
-    font-weight: 600;
+    font-weight: 500;
     white-space: normal;
     /* Ensures text wraps */
     overflow-wrap: break-word;
     max-width: 100%;
-
+    color: #252525;
 }
 
 .messagesArea .message {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: .5rem;
+    gap: .3rem;
 }
 
-.message.currentUserMessage {
+.message .currentUserMessage {
     margin-left: auto;
+    position: relative;
+}
+
+.message {
+    position: relative;
 }
 
 .message.senderUser {
@@ -219,4 +230,20 @@ body {
 
 .signout:hover {
     background-color: #e9ecef;
+}
+
+.MessagesContainer {
+    padding-bottom: 0;
+}
+
+.message .currentUserMessage::after {
+    content: '';
+    position: absolute;
+    bottom: -0.7rem;
+    clip-path: polygon(100% 74%, 100% 89%, 69% 75%);
+    background-color: #faebd7;
+    width: 3rem;
+    height: 4rem;
+    right: 0;
+    display: block;
 }

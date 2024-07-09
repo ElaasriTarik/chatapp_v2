@@ -23,6 +23,12 @@ export default function MyFriendsList() {
     React.useEffect(() => {
         getMyFriends();
     }, [])
+
+    // handling the function to message a friend
+    const handleMessage = (e) => {
+        console.log('message button clicked');
+    }
+
     return (
         <div className="friends-sugg-tag friends-list">
             <h2>My Friends List</h2>
@@ -34,10 +40,12 @@ export default function MyFriendsList() {
                                 <img src='https://via.placeholder.com/150' alt='profile pic' />
                             </div>
                             <div className='friendInfo' id={`user-${friend.user_id}`}>
-                                <h3 className='friendName'>{friend.recepient_name === localStorage.getItem('currUser') ? friend.inviter_name : friend.recepient_name}</h3>
+                                <h3 className='friendName'>{
+                                    friend.friend_fullname
+                                }</h3>
                             </div>
                             <div className='friendActions'>
-                                <button className='messageBtn'><img src={Message} alt='message' /></button>
+                                <button className='messageBtn' onClick={handleMessage}><img src={Message} alt='message' /></button>
                             </div>
                         </div>
                     )

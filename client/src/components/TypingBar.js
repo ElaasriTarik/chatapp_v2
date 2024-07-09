@@ -1,7 +1,7 @@
 import React from "react";
 import sendLogo from '../icons/send2.png';
 
-export default function TypingBar() {
+export default function TypingBar({ getMessages }) {
     const [inputValue, setInputValue] = React.useState('');
     const handleChange = (e) => {
         setInputValue(e.target.value);
@@ -22,7 +22,7 @@ export default function TypingBar() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ message: inputValue, receiver: localStorage.getItem('receiver'), sender: localStorage.getItem('currUser') })
+            body: JSON.stringify({ message: inputValue, receiver: parseInt(localStorage.getItem('receiver')), sender: parseInt(localStorage.getItem('currUserID')) })
         })
             .then(response => response.json())
             .then(data => {
@@ -30,6 +30,7 @@ export default function TypingBar() {
                     console.log('Message sent');
                     // getMessages(localStorage.getItem('receiver'));
                     setInputValue('');
+                    getMessages(parseInt(localStorage.getItem('receiver')));
                     // make the textarea height back to normal
                     const textarea = document.querySelector('.input');
                     textarea.style.height = 'auto';

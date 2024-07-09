@@ -91,7 +91,7 @@ export default function Home(props) {
             <Header />
 
             {/* <div className='messagesArea'>
-                {messagesHTML}
+                // {messagesHTML}
             </div> */}
             <Body />
 

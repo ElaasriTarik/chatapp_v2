@@ -94,11 +94,12 @@
     left: 0;
     padding-left: .4rem;
     padding-right: .6rem;
+    border-bottom: 2px solid #2525254d;
 }
 
 .messagesHeader h3 {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
     color: #252525;
     margin-right: auto;
     margin-bottom: 0.3rem;

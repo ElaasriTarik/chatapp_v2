@@ -76,7 +76,7 @@ app.get('/', (req, res) => {
 });
 app.get('/submit-data', (req, res) => {
     const data = req.body;
-    console.log(data);
+    // console.log(data);
     res.send('Data received');
     res.json({
         success: true,
@@ -91,8 +91,8 @@ app.post('/sendMessage', (req, res) => {
     // console.log(message, receiver, sender);
     const data = {
         content: message,
-        receiver: receiver,
-        author: sender,
+        receiver_id: receiver,
+        sender_id: sender,
         date_sent: new Date()
     }
     const query = 'INSERT INTO messages SET ?';
@@ -109,7 +109,7 @@ app.post('/sendMessage', (req, res) => {
 // get messages
 app.post('/getMessages', (req, res) => {
     const { receiver, sender } = req.body;
-    const query = 'SELECT * FROM messages WHERE receiver = ? AND author = ? OR receiver = ? AND author = ? ORDER BY date_sent ASC';
+    const query = 'SELECT * FROM messages WHERE receiver_id = ? AND sender_id = ? OR receiver_id = ? AND sender_id = ? ORDER BY date_sent ASC';
     connection.query(query, [receiver, sender, sender, receiver], (err, response) => {
         if (err) throw err;
         console.log(response);
@@ -120,7 +120,7 @@ app.post('/getMessages', (req, res) => {
 // creating account
 app.post('/createAccount', (req, res) => {
     const data = req.body;
-    console.log(data);
+    // console.log(data);
     data.date_created = new Date();
     const getUser = 'SELECT * FROM users WHERE username = ?';
     connection.query(getUser, data.username, (err, response) => {
@@ -197,9 +197,9 @@ app.post('/friends', (req, res) => {
 app.post('/inviting', (req, res) => {
     const { recepientId, inviterId, inviter_name, recepient_name } = req.body;
     // insert the invite into the friends table
-    const checkQuery = "SELECT * FROM friends WHERE user_id1 = ? AND user_id2 = ? AND status = 'pending'";
+    const checkQuery = "SELECT * FROM friends WHERE (user_id1 = ? AND user_id2 = ? OR user_id1 = ? AND user_id2 = ?) AND (status = 'pending' OR status = 'accepted') ";
 
-    connection.query(checkQuery, [recepientId, inviterId], (checkErr, checkResult) => {
+    connection.query(checkQuery, [recepientId, inviterId, inviterId, recepientId], (checkErr, checkResult) => {
         if (checkErr) {
             console.error('Error checking for existing invite:', checkErr);
             return res.status(500).json({ success: false, message: 'Internal server error' });
@@ -229,7 +229,7 @@ app.post('/inviting', (req, res) => {
 
 app.post('/checkforInvites', (req, res) => {
     const { inviterId } = req.body
-    console.log(inviterId);
+    // console.log(inviterId);
     const checkInvites = "SELECT * FROM friends WHERE user_id2 = ? AND status = 'pending'";
     connection.query(checkInvites, inviterId, (err, result) => {
         if (err) throw err;
@@ -354,9 +354,14 @@ app.post('/dislike', (req, res) => {
 })
 
 // get a certain user from database
-app.get('/getAuser', (req, res) => {
-    const { user } = req.body
-    console.log('user', user);
+app.post('/getAuser', (req, res) => {
+    const { user_id } = req.body
+    const query = 'SELECT * FROM users WHERE id = ?';
+    connection.query(query, user_id, (err, response) => {
+        if (err) throw err;
+
+        res.json(response);
+    });
 })
 
 // fetch all my friends
@@ -367,9 +372,10 @@ app.post('/getMyFriends', (req, res) => {
         if (err) throw err;
         response = response.map(friend => {
             return {
-                friend_id: friend.user_id1 == user_id ? friend.user_id2 : friend.user_id1,
+                friend_fullname: friend.user_id1 == user_id ? friend.recepient_name : friend.inviter_name,
                 recepient_name: friend.recepient_name,
-                inviter_name: friend.inviter_name
+                inviter_name: friend.inviter_name,
+                friend_id: friend.user_id1 == user_id ? friend.user_id2 : friend.user_id1
             }
         });
         res.json(response);

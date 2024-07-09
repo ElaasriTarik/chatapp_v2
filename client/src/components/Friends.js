@@ -44,29 +44,8 @@ export default function Friends() {
         getUsers();
     }, [])
     // function to handle sendding invites
-    function sendInvite(recepientId, recepient_name) {
-        recepientId = parseInt(recepientId)
-        fetch('/inviting', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                recepientId: recepientId,
-                inviterId: parseInt(localStorage.getItem('currUserID')),
-                inviter_name: localStorage.getItem('currUser'),
-                recepient_name: recepient_name
-            })
 
-        })
-    }
-    const handleInvite = (e, name) => {
-        const thisUser = e.target.parentElement.parentElement.id.split('-')[1]
-        console.log(name);
-        if (thisUser) {
-            sendInvite(thisUser, name);
-        }
-    }
+
     // check is user has any invites when the button loads
     const [invitesStatus, setInvitesStatus] = React.useState(false)
     const [invites, setInvites] = React.useState([])
@@ -89,18 +68,7 @@ export default function Friends() {
     React.useEffect(() => {
         checkForInvites();
     }, []);
-    // which page to display
-    // const [pageDisplay, setPageDisplay] = React.useState(false);
-    // const changePage = () => {
-    //     setPageDisplay(prev => !prev);
-    // }
-    // display friends
-    // const [friendsDisplay, setFriendsDisplay] = React.useState(false);
-    // const displayFriends = () => {
-    //     setFriendsDisplay(true);
-    //     setPageDisplay(false);
-    //     setInvitesStatus(false);
-    // }
+
     return (
         <div className='friendsContainer'>
             <div className='friends-actions'>
@@ -118,7 +86,7 @@ export default function Friends() {
                 <div className='friends-sugg-tag'>
                     <h2>Suggestions</h2>
                     {users.map((item) => (
-                        <FriendList name={item.fullname} key={item.id} userId={item.id} handleInvite={handleInvite} />
+                        <FriendList name={item.fullname} key={item.id} userId={item.id} />
                     ))}
                 </div>
             )}
