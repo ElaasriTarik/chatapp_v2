@@ -1,7 +1,38 @@
 import React from "react";
 import sendLogo from '../icons/send2.png';
+import { w3cwebsocket as W3CWebSocket } from 'websocket';
+// import io from 'socket.io-client';
 
-export default function TypingBar({ getMessages }) {
+
+export default function TypingBar({ getMessages, setMessages }) {
+
+    const [socket, setSocket] = React.useState(null);
+    React.useEffect(() => {
+        const socket = new W3CWebSocket('ws://localhost:5000');
+        setSocket(socket);
+
+        socket.onopen = function () {
+            console.log("[open] Connection established");
+            // socket.send("Hello, server");
+        };
+        socket.onmessage = function (event) {
+            // console.log("[message] Data received from server:", event.data);
+            const newMessage = JSON.parse(event.data);
+            // console.log(newMessage);
+            setMessages(prevMessages => [...prevMessages, newMessage]);
+        };
+        socket.onerror = function (event) {
+            console.error("WebSocket error observed:", event);
+        };
+        socket.onclose = (event) => {
+            console.log("[close] Connection closed:", event.reason);
+        };
+        // Cleanup function to close the WebSocket connection when the component unmounts
+        return () => {
+            socket.close();
+        };
+    }, []);
+
     const [inputValue, setInputValue] = React.useState('');
     const handleChange = (e) => {
         setInputValue(e.target.value);
@@ -17,31 +48,23 @@ export default function TypingBar({ getMessages }) {
     }
     // sending message to backend
     const sendMessage = () => {
-        fetch('/sendMessage', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: inputValue, receiver: parseInt(localStorage.getItem('receiver')), sender: parseInt(localStorage.getItem('currUserID')) })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success === true) {
-                    console.log('Message sent');
-                    // getMessages(localStorage.getItem('receiver'));
-                    setInputValue('');
-                    getMessages(parseInt(localStorage.getItem('receiver')));
-                    // make the textarea height back to normal
-                    const textarea = document.querySelector('.input');
-                    textarea.style.height = 'auto';
-                    const messageArea = document.querySelector('.messagesArea');
-                    messageArea.style.marginBottom = `.6rem`;
-                } else {
-                    console.log('Message not sent');
-                }
-            })
-            .catch(error => console.error('Error sending message:', error));
+        const message = {
+            sender: localStorage.getItem('currUserID'),
+            receiver: parseInt(localStorage.getItem('receiver')), // Assuming you store the current user's ID in localStorage
+            content: inputValue
+        };
+        socket.send(JSON.stringify({ action: 'sendMessage', message }));
+        setInputValue(''); // Clear input field after sending
+        getMessages(parseInt(localStorage.getItem('receiver')));
+        // make the textarea height back to normal
+        const textarea = document.querySelector('.input');
+        textarea.style.height = 'auto';
+        const messageArea = document.querySelector('.messagesArea');
+        messageArea.style.marginBottom = `.6rem`;
+        messageArea.scrollTop = messageArea.scrollHeight;
     }
+
+
     return (
         <div className='typingBar'>
             <textarea placeholder='Type something...' className='input' onChange={(e) => handleChange(e)} value={inputValue} id='autoresizing'></textarea>

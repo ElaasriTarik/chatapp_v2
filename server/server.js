@@ -1,35 +1,58 @@
 const express = require('express');
 const session = require('express-session');
+const http = require('http');
 const store = new session.MemoryStore();
 const app = express();
+const socketIo = require('socket.io');
 const port = process.env.PORT || 5000;
 const path = require('path');
-// making sessions for users
 
-app.use(session({
-    secret: 'some secret',
-    cookie: { maxAge: 30000 },
-    saveUninitialized: false,
-    store
-}));
 
+
+
+const server = http.createServer(app);
 const WebSocket = require('ws');
 
-const server = require('http').createServer(app);
+
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
-        // Broadcast incoming message to all clients except the sender
-        // console.log('received: %s', message);
-        wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(message);
-            }
-        });
+
+        let parsedMessage;
+        try {
+            parsedMessage = JSON.parse(message);
+        } catch (e) {
+            console.error('Error parsing message:', message, e);
+            // Optionally, you can send a message back to the client indicating the error
+            ws.send(JSON.stringify({ success: false, message: 'Invalid JSON format' }));
+            return; // Stop further processing
+        }
+        console.log('%s', parsedMessage.actions);
+        if (parsedMessage.action === 'sendMessage') {
+            wss.clients.forEach(function each(client) {
+                if (client !== ws && client.readyState === WebSocket.OPEN) {
+                    const { content, receiver, sender } = parsedMessage.message;
+                    console.log(content, receiver, sender);
+                    const data = {
+                        content: content,
+                        receiver_id: parseInt(receiver),
+                        sender_id: parseInt(sender),
+                        date_sent: new Date()
+                    }
+                    // console.log('data', data);
+                    client.send(JSON.stringify(data));
+                }
+            })
+            sendMessage(parsedMessage.message, ws);
+
+        }
     });
 
-    ws.send('Welcome to the chat!');
+    ws.on('error', function error(err) {
+        console.error('WebSocket error:', err);
+    });
+
 });
 
 
@@ -38,6 +61,8 @@ wss.on('connection', function connection(ws) {
 //     res.sendFile(path.join(__dirname + '../client/build/index.html'));
 
 // });
+
+
 const loginAdmin = 'sqladmin';
 const password = process.env.PASSWORD;
 const host = process.env.HOST;
@@ -46,6 +71,7 @@ const host = process.env.HOST;
 const mysql = require('mysql');
 const { connect } = require('http2');
 const { resourceLimits } = require('worker_threads');
+const { escape } = require('querystring');
 const connection = mysql.createConnection({
     host: host,
     user: loginAdmin,
@@ -85,7 +111,23 @@ app.get('/submit-data', (req, res) => {
     });
 
 })
+function sendMessage(messageData, ws) {
+    const { content, receiver, sender } = messageData;
+    // console.log(messageData);
+    // console.log(message, receiver, sender);
+    const data = {
+        content: content,
+        receiver_id: parseInt(receiver),
+        sender_id: parseInt(sender),
+        date_sent: new Date()
+    }
+    const query = 'INSERT INTO messages SET ?';
+    connection.query(query, data, (err, response) => {
+        if (err) throw err;
+        ws.send(JSON.stringify({ success: true, message: 'Message sent' }));
 
+    })
+}
 app.post('/sendMessage', (req, res) => {
     const { message, receiver, sender } = req.body;
     // console.log(message, receiver, sender);
@@ -104,7 +146,6 @@ app.post('/sendMessage', (req, res) => {
             data: message
         });
     })
-
 })
 // get messages
 app.post('/getMessages', (req, res) => {
@@ -112,7 +153,7 @@ app.post('/getMessages', (req, res) => {
     const query = 'SELECT * FROM messages WHERE receiver_id = ? AND sender_id = ? OR receiver_id = ? AND sender_id = ? ORDER BY date_sent ASC';
     connection.query(query, [receiver, sender, sender, receiver], (err, response) => {
         if (err) throw err;
-        console.log(response);
+        // console.log(response);
         res.json(response);
     })
 })
@@ -381,6 +422,6 @@ app.post('/getMyFriends', (req, res) => {
         res.json(response);
     });
 })
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

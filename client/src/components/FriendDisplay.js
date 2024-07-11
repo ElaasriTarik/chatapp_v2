@@ -17,6 +17,7 @@ export default function FriendDisplay({ name, userId }) {
         return data[0];
     }
 
+
     // function to send invites
     async function sendInvite(recepientId, recepient_name) {
         recepientId = parseInt(recepientId)
@@ -40,6 +41,8 @@ export default function FriendDisplay({ name, userId }) {
                 }
             })
     }
+
+
     const handleInvite = (e, name) => {
         const thisUser = e.target.parentElement.parentElement.id.split('-')[1]
         if (thisUser) {
