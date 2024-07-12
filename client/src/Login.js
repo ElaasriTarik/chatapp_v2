@@ -1,6 +1,6 @@
 import React from 'react';
 import './createAccounts.css';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
     // listening on type

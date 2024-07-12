@@ -1,12 +1,11 @@
 import React from 'react';
 import Header from './Header';
-import TypingBar from './components/TypingBar';
 
 import Body from './components/Body';
 
 import './index.css';
 import Users from './Users';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 export default function Home(props) {
     const [usersData, setUsersData] = React.useState([]);

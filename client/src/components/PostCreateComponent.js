@@ -6,7 +6,7 @@ import commentBtn from '../icons/comment.png';
 import saveBtn from '../icons/save.png';
 
 import Comments from './Comments';
-import Posts from './Posts';
+
 
 export default function PostCreateComponent({ handleComments, comments, post }) {
     // state of likes and dislikes

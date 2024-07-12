@@ -1,7 +1,6 @@
 import React from 'react';
-import sendLogo from './send.png';
 import './createAccounts.css';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function CreateAccounts() {
     // listening on type

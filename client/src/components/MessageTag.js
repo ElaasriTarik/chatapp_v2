@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../styles/Friends.css';
-import moreIcon from '../icons/more.png';
 import Message from '../icons/messages.png';
 
 

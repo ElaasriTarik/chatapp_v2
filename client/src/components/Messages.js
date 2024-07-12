@@ -4,9 +4,8 @@ import TypingBar from './TypingBar';
 import MessageTag from './MessageTag';
 import Left from '../icons/left.png';
 import moreIcon from '../icons/more.png';
-import Message from '../icons/messages.png';
+
 import '../styles/Friends.css'
-import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 
 export default function Messages() {
@@ -84,7 +83,6 @@ export default function Messages() {
     }
 
     function hideMessages() {
-        console.log('hide messages');
         setMessagesHTML([]);
         setContact_fullname('');
         setMessages([]);
@@ -120,7 +118,10 @@ export default function Messages() {
     const messagesEndRef = React.useRef(null);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (messagesEndRef.current) {
+
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
     };
 
     React.useEffect(() => {

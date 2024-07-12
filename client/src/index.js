@@ -2,17 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Home from './Home.js'
 import FetchData from './FetchData.js';
-import CreateAccounts from './CreateAccounts.js';
-import Login from './Login.js';
 
-import Friends from './components/Friends';
 import Options from './components/Options';
 import Notification from './components/Notifications';
-import Messages from './components/Messages';
-import Posts from './components/Posts';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './Header';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -11,19 +11,19 @@ export default function Options() {
         <div className='optionsContainer'>
             <div className='options profileAction'>
                 <img src={profileicon} alt='profile' />
-                <a href='#'>Profile</a>
+                <a href='home.html'>Profile</a>
             </div>
             <div className='options saveAction'>
                 <img src={saveIcon} alt='save' />
-                <a href='#'>Saved</a>
+                <a href='home.html'>Saved</a>
             </div>
             <div className='options settingsAction'>
                 <img src={settingsIcon} alt='settings' />
-                <a href='#'>Settings</a>
+                <a href='home.html'>Settings</a>
             </div>
             <div className='options logoutAction'>
                 <img src={logoutIcon} alt='logout' />
-                <a href='#'>Logout</a>
+                <a href='home.html'>Logout</a>
             </div>
         </div>
     )

@@ -1,8 +1,5 @@
 import React from 'react';
 import './Users.css'
-import Home from './Home';
-import { get } from 'jquery';
-
 
 export default function Users({ data, getMessagesFunc }) {
     const receiverSave = (e) => {
