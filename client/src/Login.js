@@ -1,8 +1,10 @@
 import React from 'react';
 import './createAccounts.css';
-import { Link } from 'react-router-dom';
+import CreateAccounts from './CreateAccounts';
+import { Link, Navigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Login(props) {
+    const [createOrLogin, setCreateOrLogin] = React.useState(true);
     // listening on type
     const [inputValues, setInputValue] = React.useState({
         username: '',
@@ -27,28 +29,41 @@ export default function Login() {
             .then(response => response.json())
             .then(data => {
                 if (data.success === true) {
-                    console.log(data);
                     console.log('Log in success');
                     // save the sender's username/id in local storage
                     // get user from cookie 
 
                     localStorage.setItem('currUser', inputValues.username);
                     localStorage.setItem('currUserID', data.id);
+                    // props.setisLoggedIn(true)
                     // go to home page after login succes
                     window.location.href = '/';
                 }
             })
             .catch(error => console.error('Error logging in:', error));
     }
+
+    const handleCreateAcc = () => {
+        setCreateOrLogin(false);
+    }
+
     return (
-        <div className="loginContainer">
-            <h1>Log-in</h1>
-            <div className='inputFields'>
-                <input type='text' placeholder='Username' className='input' onChange={(e) => handleChange(e)} id='username' />
-                <input type='password' placeholder='Password' className='input' onChange={(e) => handleChange(e)} id='password' />
-                <button className='createButton' onClick={createAcc}>Log-in</button>
-                <p>Don't have an account? <Link to='/createAccount'>Create</Link></p>
-            </div>
-        </div>
+        <>
+            {createOrLogin ? (
+                <>
+                    <div className="loginContainer">
+                        <h1>Log-in</h1>
+                        <div className='inputFields'>
+                            <input type='text' placeholder='Username' className='input' onChange={(e) => handleChange(e)} id='username' />
+                            <input type='password' placeholder='Password' className='input' onChange={(e) => handleChange(e)} id='password' />
+                            <button className='createButton' onClick={createAcc}>Log-in</button>
+                            <p onClick={handleCreateAcc}>Don't have an account? <Link to='/createAccount'>Create</Link></p>
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <CreateAccounts />
+            )}
+        </>
     )
 }

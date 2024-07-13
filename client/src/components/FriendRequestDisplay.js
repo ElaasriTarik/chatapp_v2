@@ -3,6 +3,7 @@ import '../styles/Friends.css'
 
 export default function FriendRequestDisplay({ name, userId }) {
     // handle accept choice
+    const [acceptedState, setAcceptedState] = React.useState('Accept')
     const handleAccept = (e) => {
         console.log('arequest accepted');
         fetch('/accept_request', {
@@ -18,12 +19,14 @@ export default function FriendRequestDisplay({ name, userId }) {
             .then(res => res.json())
             .then(result => {
                 if (result.success) {
+                    setAcceptedState('Accepted');
                     console.log('friend request accepted!');
                 }
             })
     }
 
     // handle decline choice
+    const [DeclinedState, setDeclinedState] = React.useState('Decline')
     const handleDecline = (e) => {
         // console.log('request declined');
         fetch('/delete_request', {
@@ -40,6 +43,7 @@ export default function FriendRequestDisplay({ name, userId }) {
             .then(res => res.json())
             .then(result => {
                 if (result.success) {
+                    setDeclinedState('Declined');
                     console.log('friend request declined!');
                 }
             })
@@ -52,8 +56,8 @@ export default function FriendRequestDisplay({ name, userId }) {
             <div className='friendInfo' id={`user-${userId}`}>
                 <h3 className='friendName'>{name}</h3>
                 <div className='friendActions'>
-                    <button className='inviteBtn' onClick={(e) => handleAccept(e)}>Accept</button>
-                    <button className='removeBtn' onClick={(e) => handleDecline(e)}>Decline</button>
+                    <button className='inviteBtn' onClick={(e) => handleAccept(e)}>{acceptedState}</button>
+                    <button className='removeBtn' onClick={(e) => handleDecline(e)}>{DeclinedState}</button>
                 </div>
             </div>
         </div>

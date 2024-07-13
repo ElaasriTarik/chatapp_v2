@@ -1,8 +1,8 @@
 import React from 'react';
 import './createAccounts.css';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
-export default function CreateAccounts() {
+export default function CreateAccounts({ isLoggedIn }) {
     // listening on type
     const [inputValues, setInputValue] = React.useState({
         username: '',
@@ -11,13 +11,15 @@ export default function CreateAccounts() {
         age: 0,
         bio: ''
     });
+
+
     const handleChange = (e) => {
         setInputValue(prev => ({
             ...prev,
             [e.target.id]: e.target.value
         }));
     }
-    console.log(inputValues);
+
     // sending message to backend
     function createAcc() {
         fetch('/createAccount', {
@@ -35,7 +37,7 @@ export default function CreateAccounts() {
                     localStorage.setItem('currUser', inputValues.username);
                     localStorage.setItem('currUserID', data.id);
                     // go to home page after login succes
-                    window.location.href = '/login';
+                    window.location.href = '/';
                 }
                 console.log(data.message);
 

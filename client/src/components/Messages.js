@@ -8,7 +8,8 @@ import moreIcon from '../icons/more.png';
 import '../styles/Friends.css'
 
 
-export default function Messages() {
+export default function Messages({ isLoggedIn }) {
+
 
     // function to get messages between two users
     const [contact_fullname, setContact_fullname] = React.useState('');
@@ -16,21 +17,22 @@ export default function Messages() {
 
     React.useEffect(() => {
 
-        if (messages.length) {
+        if (messages.length >= 0) {
             const currentUser = parseInt(localStorage.getItem('currUserID'));
             const receiver = parseInt(localStorage.getItem('receiver'));
             const messagesLength = messages.length;
-
-            if (parseInt(messages[messagesLength - 1].sender_id) === receiver && parseInt(messages[messagesLength - 1].receiver_id) === currentUser) {
-                console.log(messages[messagesLength - 1].date_sent);
-                createMessages(messages);
+            if (messagesLength === 0) {
+                // getMessages(receiver, contact_fullname);
+            }
+            else if (parseInt(messages[messagesLength - 1].sender_id) === receiver && parseInt(messages[messagesLength - 1].receiver_id) === currentUser) {
+                createMessages(messages, contact_fullname);
             }
         }
     }, [messages]);
 
     function getMessages(receiver, contact_fullname) {
         const sender = localStorage.getItem('currUserID');
-        console.log(receiver);
+
         fetch('/getMessages', {
             method: 'POST',
             headers: {
@@ -40,7 +42,7 @@ export default function Messages() {
         })
             .then(response => response.json())
             .then(data => {
-                // console.log(data);
+                console.log('messages', data);
                 setMessages(data);
                 setContact_fullname(contact_fullname);
                 createMessages(data, contact_fullname);
@@ -58,6 +60,7 @@ export default function Messages() {
 
         console.log(messageTag);
         setMessages(true);
+        setContact_fullname(contact_fullname);
         localStorage.setItem('receiver', messageTag.dataset.friendId);
         getMessages(parseInt(messageTag.dataset.friendId), contact_fullname);
 
@@ -66,12 +69,24 @@ export default function Messages() {
 
     // function to create messages
     const [messagesHTML, setMessagesHTML] = React.useState([]);
-    function createMessages(messages, contact_fullname) {
+    function createMessages(messages, contact_fullname, noMessages) {
         // console.log(messages);
         const currUser = parseInt(localStorage.getItem('currUserID'));
+        if (noMessages) {
+            const messagesHTML = (
+                <>
+                    <div className='noMessages'>
+                        <h3>{noMessages}</h3>
+                    </div>
+                </>
+            );
+            setMessagesHTML(messagesHTML);
+            return;
+        }
+        const messagesLen = messages.length;
         const messagesHTML = (
             <>
-                {messages.length && messages.map(message => (
+                {messagesLen + 1 && messages.map(message => (
                     <div key={message.id} className={`message ${message.sender_id === currUser ? 'currentUserMessage' : 'senderUser'}`} data-sender={message.sender_id} data-receiver={message.receiver_id}>
                         <p>{message.content}</p>
                         <span className='date'>{message.date_sent.split('T')[1].slice(0, 5)}</span>
@@ -137,7 +152,7 @@ export default function Messages() {
                     <h2>Your Messages</h2>
                     {
                         friends.map((friend) => {
-                            return <MessageTag friend={friend} handleMessage={handleMessage} displayMessages={displayMessages} />
+                            return <MessageTag friend={friend} handleMessage={handleMessage} displayMessages={displayMessages} key={friend.user_id} />
                         })
                     }
                 </>

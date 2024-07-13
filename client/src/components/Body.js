@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import Friends from './Friends';
 import Options from './Options';
@@ -8,18 +9,32 @@ import Messages from './Messages';
 import Posts from './Posts';
 import Login from '../Login';
 import CreateAccounts from '../CreateAccounts';
+import Home from '../Home';
 
+function PrivateRoute({ children, isLoggedIn }) {
+    return isLoggedIn() ? children : <Navigate to="/login" replace />;
+}
 
-export default function Body() {
+export default function Body({ isLoggedIn }) {
+    // check if user is logged in
+
+    // if (!isLoggedIn()) {
+    //     return (
+    //         <>
+    //             <Navigate to="/login" />
+    //         </>);
+    // }
     return (
         <Routes>
-            <Route path='/messages' element={<Messages />} />
-            <Route path='/friends' element={<Friends />} />
-            <Route path='/notification' element={<Notification />} />
-            <Route path='/menu' element={<Options />} />
             <Route path='/login' element={<Login />} />
             <Route path="/createAccount" element={<CreateAccounts />} />
-            <Route path='/' element={<Posts />} />
+            {/* Wrap protected routes with the PrivateRoute component */}
+            <Route path='/messages' element={<PrivateRoute isLoggedIn={isLoggedIn}><Messages /></PrivateRoute>} />
+            <Route path='/friends' element={<PrivateRoute isLoggedIn={isLoggedIn}><Friends /></PrivateRoute>} />
+            <Route path='/notification' element={<PrivateRoute isLoggedIn={isLoggedIn}><Notification /></PrivateRoute>} />
+            <Route path='/menu' element={<PrivateRoute isLoggedIn={isLoggedIn}><Options /></PrivateRoute>} />
+            <Route path='/' element={<PrivateRoute isLoggedIn={isLoggedIn}><Posts /></PrivateRoute>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-    )
+    );
 }

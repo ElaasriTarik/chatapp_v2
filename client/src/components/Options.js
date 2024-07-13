@@ -7,6 +7,10 @@ import logoutIcon from '../icons/logout.png';
 import '../styles/OptionsPage.css';
 
 export default function Options() {
+    const handlLogout = () => {
+        localStorage.clear();
+        window.location.href = '/login';
+    }
     return (
         <div className='optionsContainer'>
             <div className='options profileAction'>
@@ -21,7 +25,7 @@ export default function Options() {
                 <img src={settingsIcon} alt='settings' />
                 <a href='home.html'>Settings</a>
             </div>
-            <div className='options logoutAction'>
+            <div className='options logoutAction' onClick={handlLogout}>
                 <img src={logoutIcon} alt='logout' />
                 <a href='home.html'>Logout</a>
             </div>
