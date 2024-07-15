@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Posts.css';
 import likeBtn from '../icons/like.png';
 import dislikeBtn from '../icons/dislike.png';
@@ -6,7 +7,7 @@ import commentBtn from '../icons/comment.png';
 import saveBtn from '../icons/save.png';
 
 import Comments from './Comments';
-
+import MyProfile from './MyProfile';
 
 export default function PostCreateComponent({ handleComments, comments, post }) {
     // state of likes and dislikes
@@ -56,6 +57,15 @@ export default function PostCreateComponent({ handleComments, comments, post }) 
                 }
             })
     }
+
+
+    // handling the username clicked
+    const navigate = useNavigate();
+    const handlUsernameClicked = (e) => {
+        const author = parseInt(e.target.getAttribute('dataauthor'));
+        navigate(`/profile/${author}`);
+    }
+
     return (
         <div className='outerPost'>
             <div className='post'>
@@ -64,7 +74,7 @@ export default function PostCreateComponent({ handleComments, comments, post }) 
                         <img src='https://via.placeholder.com/150' alt='profile' />
                     </div>
                     <div className='postInfo'>
-                        <h3 className='postAuthor'>{post.name}</h3>
+                        <h3 className='postAuthor' dataauthor={`${post.user_id}`} onClick={(e) => handlUsernameClicked(e)}>{post.name}</h3>
                         <p className='postDate'>{post.post_date.split('T')[1].substring(0, 5)}</p>
                     </div>
                 </div>

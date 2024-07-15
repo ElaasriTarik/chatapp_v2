@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import profileicon from '../icons/profile.png';
 import saveIcon from '../icons/save.png';
 import settingsIcon from '../icons/settings.png';
@@ -6,16 +7,24 @@ import logoutIcon from '../icons/logout.png';
 
 import '../styles/OptionsPage.css';
 
+import MyProfile from './MyProfile';
+
 export default function Options() {
+    const navigate = useNavigate();
     const handlLogout = () => {
         localStorage.clear();
         window.location.href = '/login';
+    }
+    const user_id = localStorage.getItem('currUserID');
+    const handleUserProfile = (e) => {
+        e.preventDefault();
+        navigate(`/profile/${user_id}`);
     }
     return (
         <div className='optionsContainer'>
             <div className='options profileAction'>
                 <img src={profileicon} alt='profile' />
-                <a href='home.html'>Profile</a>
+                <a href='/profile' onClick={handleUserProfile}>Profile</a>
             </div>
             <div className='options saveAction'>
                 <img src={saveIcon} alt='save' />

@@ -35,9 +35,9 @@ export default function CreateAccounts({ isLoggedIn }) {
                     console.log('Account created');
                     // save the sender's username/id in local storage
                     localStorage.setItem('currUser', inputValues.username);
-                    localStorage.setItem('currUserID', data.id);
+                    localStorage.setItem('currUserID', data.user_id);
                     // go to home page after login succes
-                    window.location.href = '/';
+                    window.location.href = '/login';
                 }
                 console.log(data.message);
 
