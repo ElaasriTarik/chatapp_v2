@@ -9,7 +9,7 @@ const path = require('path');
 
 // allow cros origin from https://chatapp-server-ten.vercel.app
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://chatapp-server-ten.vercel.app');
+    res.header('Access-Control-Allow-Origin', 'https://chatapp-client-jet.vercel.app');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
