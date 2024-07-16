@@ -50,7 +50,7 @@
 }
 
 .postsPage .writeYourPost .postBtn {
-    width: 3rem;
+    min-width: 3rem;
     height: auto;
     background-color: #bff4f0;
     background-color: #f5f3f3;
@@ -61,7 +61,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    padding: 0.5rem 0.8rem;
+    padding: 0.4rem .8rem;
     margin-bottom: .3rem;
     margin-right: .2rem;
     font-weight: 600;

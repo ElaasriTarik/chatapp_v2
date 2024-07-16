@@ -138,13 +138,13 @@
 .friend-req-tag .removeBtn {
     padding: .2rem .6rem;
     border: none;
-    background-color: rgb(255, 141, 185);
+    background-color: rgb(236, 243, 247);
     border-radius: 3px;
     font-weight: 600;
     max-width: 4.5rem;
     color: #252525;
     cursor: pointer;
-    color: rgb(255, 255, 255);
+    color: rgb(70, 63, 63);
     font-size: 0.8rem;
 }
 

@@ -16,6 +16,7 @@ export default function Posts({ data }) {
         setComments(!comments);
     }
     // handling the sharing of the post
+    const [postStatus, setPostStatus] = React.useState('Share');
     const handlePostBtn = () => {
         fetch('/post', {
             method: 'POST',
@@ -32,6 +33,9 @@ export default function Posts({ data }) {
             .then(result => {
                 if (result.success) {
                     console.log('post created');
+                    setPostStatus('Shared!');
+                    settextArea('');
+                    getPosts();
                 }
             })
     }
@@ -39,22 +43,26 @@ export default function Posts({ data }) {
     // getting all post from the database
     const [posts, setPosts] = React.useState([]);
     React.useEffect(() => {
+        getPosts();
+    }, [])
+
+
+    function getPosts() {
         fetch('/getPosts')
             .then(res => res.json())
             .then(data => {
                 console.log(data);
                 setPosts(data);
             })
-    }, [])
-
+    }
     // end of javascript
     // start of react
     return (
         <div className='postsPage'>
             <div className='writeYourPost'>
                 <h1>Write Your Post</h1>
-                <textarea placeholder='what are you thinking?' value={textArea} onChange={handleChange}></textarea>
-                <button className='postBtn' onClick={handlePostBtn}>Post</button>
+                <textarea placeholder='what are you thinking?' value={textArea} onChange={handleChange} className="postInput"></textarea>
+                <button className='postBtn' onClick={handlePostBtn}>{postStatus}</button>
             </div>
             <div className='postsArea'>
                 <h1>Posts</h1>

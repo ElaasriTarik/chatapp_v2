@@ -90,6 +90,13 @@ connection.connect((err) => {
 
 });
 
+// function to proccess the time
+const timeago = require('timeago.js');
+
+function getRelativeTime(dateString) {
+    return timeago.format(dateString);
+}
+
 app.use(express.json());
 // middleware function
 // app.use((req, res, next) => {
@@ -331,9 +338,22 @@ app.get('/getPosts', (req, res) => {
 SELECT posts.*,
        (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.post_id) AS like_count,
        (SELECT COUNT(*) FROM dislikes WHERE dislikes.post_id = posts.post_id) AS dislike_count 
-FROM posts`;
+FROM posts
+ORDER BY posts.post_date DESC`;
     connection.query(query, (err, response) => {
         if (err) throw err;
+
+        response = response.map(post => {
+            return {
+                post_id: post.post_id,
+                content: post.content,
+                user_id: post.user_id,
+                name: post.name,
+                post_date: getRelativeTime(post.post_date),
+                like_count: post.like_count,
+                dislike_count: post.dislike_count
+            }
+        });
         res.json(response);
     });
 })
@@ -422,6 +442,16 @@ app.post('/getMyFriends', (req, res) => {
         res.json(response);
     });
 })
+
+// get user'sdata from the database
+app.get('/api/users/:id', (req, res) => {
+    const query = 'SELECT id, fullname, username, age, bio, date_created FROM users WHERE id = ?';
+    connection.query(query, req.params.id, (err, response) => {
+        if (err) throw err;
+        res.json(response);
+    });
+})
+
 server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

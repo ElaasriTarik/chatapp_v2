@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+// import intervalToDuration from 'date-fns/intervalToDuration';
+
 import '../styles/Posts.css';
 import likeBtn from '../icons/like.png';
 import dislikeBtn from '../icons/dislike.png';
@@ -8,6 +10,7 @@ import saveBtn from '../icons/save.png';
 
 import Comments from './Comments';
 import MyProfile from './MyProfile';
+import Posts from './Posts';
 
 export default function PostCreateComponent({ handleComments, comments, post }) {
     // state of likes and dislikes
@@ -65,7 +68,7 @@ export default function PostCreateComponent({ handleComments, comments, post }) 
         const author = parseInt(e.target.getAttribute('dataauthor'));
         navigate(`/profile/${author}`);
     }
-
+    // const datePosted = intervalToDuration({ start: Posts.post_date, end: new Date() });
     return (
         <div className='outerPost'>
             <div className='post'>
@@ -75,7 +78,7 @@ export default function PostCreateComponent({ handleComments, comments, post }) 
                     </div>
                     <div className='postInfo'>
                         <h3 className='postAuthor' dataauthor={`${post.user_id}`} onClick={(e) => handlUsernameClicked(e)}>{post.name}</h3>
-                        <p className='postDate'>{post.post_date.split('T')[1].substring(0, 5)}</p>
+                        <p className='postDate'>{post.post_date}</p>
                     </div>
                 </div>
                 <div className='postContent'>
