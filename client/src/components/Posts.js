@@ -6,6 +6,7 @@ import PostCreateComponent from './PostCreateComponent.js';
 
 export default function Posts({ data }) {
     const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
+    console.log(REACT_APP_SERVER_URL);
     // state of textarea
     const [textArea, settextArea] = React.useState('');
     const handleChange = (e) => {
@@ -49,7 +50,7 @@ export default function Posts({ data }) {
 
 
     function getPosts() {
-        fetch(REACT_APP_SERVER_URL + '/getPosts')
+        fetch(`${REACT_APP_SERVER_URL}/getPosts`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);

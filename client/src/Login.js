@@ -5,6 +5,7 @@ import { Link, Navigate } from 'react-router-dom';
 
 export default function Login(props) {
     const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
+    console.log(REACT_APP_SERVER_URL);
     const [createOrLogin, setCreateOrLogin] = React.useState(true);
     // listening on type
     const [inputValues, setInputValue] = React.useState({
