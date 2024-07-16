@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Messages.css';
-import TypingBar from './TypingBar';
-import MessageTag from './MessageTag';
+import TypingBar from './TypingBar.js';
+import MessageTag from './MessageTag.js';
 import Left from '../icons/left.png';
 import moreIcon from '../icons/more.png';
 

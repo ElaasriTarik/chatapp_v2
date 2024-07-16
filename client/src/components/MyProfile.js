@@ -1,5 +1,4 @@
 import React from 'react';
-import Users from '../Users';
 import '../styles/MyProfile.css';
 
 export default function MyProfile() {

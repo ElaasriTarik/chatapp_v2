@@ -2,13 +2,13 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
+import Header from './Header.js';
 
-import Body from './components/Body';
-import Login from './Login';
-import CreateAccounts from './CreateAccounts';
+import Body from './components/Body.js';
+import Login from './Login.js';
+import CreateAccounts from './CreateAccounts.js';
 import './index.css';
-import Users from './Users';
+import Users from './Users.js';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 export default function Home() {

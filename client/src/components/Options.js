@@ -7,7 +7,7 @@ import logoutIcon from '../icons/logout.png';
 
 import '../styles/OptionsPage.css';
 
-import MyProfile from './MyProfile';
+import MyProfile from './MyProfile.js';
 
 export default function Options() {
     const navigate = useNavigate();

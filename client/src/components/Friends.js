@@ -1,9 +1,9 @@
 import React from 'react';
 import '../styles/Friends.css'
-import FriendList from './FriendDisplay';
-import RedIndicator from './RedIndicator';
-import FriendReqs from './Friend_reqs';
-import MyFriendsList from './MyFriendsList';
+import FriendList from './FriendDisplay.js';
+import RedIndicator from './RedIndicator.js';
+import FriendReqs from './Friend_reqs.js';
+import MyFriendsList from './MyFriendsList.js';
 
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Posts.css';
 
-import PostCreateComponent from './PostCreateComponent';
+import PostCreateComponent from './PostCreateComponent.js';
 
 
 export default function Posts({ data }) {

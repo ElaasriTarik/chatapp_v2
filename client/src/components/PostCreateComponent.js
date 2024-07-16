@@ -8,9 +8,9 @@ import dislikeBtn from '../icons/dislike.png';
 import commentBtn from '../icons/comment.png';
 import saveBtn from '../icons/save.png';
 
-import Comments from './Comments';
-import MyProfile from './MyProfile';
-import Posts from './Posts';
+import Comments from './Comments.js';
+import MyProfile from './MyProfile.js';
+import Posts from './Posts.js';
 
 export default function PostCreateComponent({ handleComments, comments, post }) {
     // state of likes and dislikes

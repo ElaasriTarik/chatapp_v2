@@ -2,15 +2,15 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
-import Friends from './Friends';
-import Options from './Options';
-import Notification from './Notifications';
-import Messages from './Messages';
-import Posts from './Posts';
-import Login from '../Login';
-import CreateAccounts from '../CreateAccounts';
-import Home from '../Home';
-import MyProfile from './MyProfile';
+import Friends from './Friends.js';
+import Options from './Options.js';
+import Notification from './Notifications.js';
+import Messages from './Messages.js';
+import Posts from './Posts.js';
+import Login from '../Login.js';
+import CreateAccounts from '../CreateAccounts.js';
+import Home from '../Home.js';
+import MyProfile from './MyProfile.js';
 
 
 function PrivateRoute({ children, isLoggedIn }) {

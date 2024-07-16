@@ -1,5 +1,5 @@
 import React from "react";
-import FriendRequestDisplay from './FriendRequestDisplay';
+import FriendRequestDisplay from './FriendRequestDisplay.js';
 
 
 export default function FriendReqs({ invites }) {

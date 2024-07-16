@@ -1,6 +1,6 @@
 import React from 'react';
 import './createAccounts.css';
-import CreateAccounts from './CreateAccounts';
+import CreateAccounts from './CreateAccounts.js';
 import { Link, Navigate } from 'react-router-dom';
 
 export default function Login(props) {

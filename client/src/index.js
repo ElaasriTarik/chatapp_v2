@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import Home from './Home.js'
 import FetchData from './FetchData.js';
 
-import Options from './components/Options';
-import Notification from './components/Notifications';
+import Options from './components/Options.js';
+import Notification from './components/Notifications.js';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
