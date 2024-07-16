@@ -4,6 +4,7 @@ import CreateAccounts from './CreateAccounts.js';
 import { Link, Navigate } from 'react-router-dom';
 
 export default function Login(props) {
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     const [createOrLogin, setCreateOrLogin] = React.useState(true);
     // listening on type
     const [inputValues, setInputValue] = React.useState({
@@ -19,7 +20,7 @@ export default function Login(props) {
     // console.log(inputValues);
     // sending message to backend
     function createAcc() {
-        fetch('/login', {
+        fetch(REACT_APP_SERVER_URL + '/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

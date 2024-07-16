@@ -5,6 +5,7 @@ import PostCreateComponent from './PostCreateComponent.js';
 
 
 export default function Posts({ data }) {
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     // state of textarea
     const [textArea, settextArea] = React.useState('');
     const handleChange = (e) => {
@@ -18,7 +19,7 @@ export default function Posts({ data }) {
     // handling the sharing of the post
     const [postStatus, setPostStatus] = React.useState('Share');
     const handlePostBtn = () => {
-        fetch('/post', {
+        fetch(REACT_APP_SERVER_URL + '/post', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -48,7 +49,7 @@ export default function Posts({ data }) {
 
 
     function getPosts() {
-        fetch('/getPosts')
+        fetch(REACT_APP_SERVER_URL + '/getPosts')
             .then(res => res.json())
             .then(data => {
                 console.log(data);

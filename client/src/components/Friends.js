@@ -8,6 +8,7 @@ import MyFriendsList from './MyFriendsList.js';
 
 
 export default function Friends() {
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     // toggle between friends and suggestions and requests
     const [currentPage, setCurrentPage] = React.useState('suggestions'); // Default to 'suggestions'
 
@@ -19,7 +20,7 @@ export default function Friends() {
     // get list of users from the database
     const [users, setUsers] = React.useState([])
     function getUsers() {
-        fetch('/friends', {
+        fetch(REACT_APP_SERVER_URL + '/friends', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,7 +52,7 @@ export default function Friends() {
     const [invites, setInvites] = React.useState([])
 
     function checkForInvites() {
-        fetch('/checkforInvites', {
+        fetch(REACT_APP_SERVER_URL + '/checkforInvites', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

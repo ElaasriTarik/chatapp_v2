@@ -9,7 +9,7 @@ import '../styles/Friends.css'
 
 
 export default function Messages({ isLoggedIn }) {
-
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
 
     // function to get messages between two users
     const [contact_fullname, setContact_fullname] = React.useState('');
@@ -33,7 +33,7 @@ export default function Messages({ isLoggedIn }) {
     function getMessages(receiver, contact_fullname) {
         const sender = localStorage.getItem('currUserID');
 
-        fetch('/getMessages', {
+        fetch(REACT_APP_SERVER_URL + '/getMessages', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -105,7 +105,7 @@ export default function Messages({ isLoggedIn }) {
     // get my friends 
     const [friends, setFriends] = React.useState([]);
     function getMyFriends() {
-        fetch('/getMyFriends', {
+        fetch(REACT_APP_SERVER_URL + '/getMyFriends', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

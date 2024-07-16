@@ -13,12 +13,13 @@ import MyProfile from './MyProfile.js';
 import Posts from './Posts.js';
 
 export default function PostCreateComponent({ handleComments, comments, post }) {
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     // state of likes and dislikes
     const [likes, setLikes] = React.useState(post.like_count);
     const [dislikes, setDislikes] = React.useState(post.dislike_count);
     // handling the like btn click
     const handleLikeBtn = (post_id, user_id) => {
-        fetch('/like', {
+        fetch(REACT_APP_SERVER_URL + '/like', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,7 +42,7 @@ export default function PostCreateComponent({ handleComments, comments, post }) 
 
     // handling the dislike btn click
     const handleDislikeBtn = (post_id, user_id) => {
-        fetch('/dislike', {
+        fetch(REACT_APP_SERVER_URL + '/dislike', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

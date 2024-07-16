@@ -3,6 +3,7 @@ import './createAccounts.css';
 import { Link, Navigate } from 'react-router-dom';
 
 export default function CreateAccounts({ isLoggedIn }) {
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     // listening on type
     const [inputValues, setInputValue] = React.useState({
         username: '',
@@ -22,7 +23,7 @@ export default function CreateAccounts({ isLoggedIn }) {
 
     // sending message to backend
     function createAcc() {
-        fetch('/createAccount', {
+        fetch(REACT_APP_SERVER_URL + '/createAccount', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
