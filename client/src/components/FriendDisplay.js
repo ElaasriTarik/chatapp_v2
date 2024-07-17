@@ -2,11 +2,12 @@ import React from 'react';
 import '../styles/Friends.css'
 
 export default function FriendDisplay({ name, userId }) {
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     const [isInvited, setIsInvited] = React.useState('Invite')
 
     // get a user from his id
     async function getUser(id) {
-        const response = await fetch('/getAuser', {
+        const response = await fetch(REACT_APP_SERVER_URL + '/getAuser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,7 +23,7 @@ export default function FriendDisplay({ name, userId }) {
     async function sendInvite(recepientId, recepient_name) {
         recepientId = parseInt(recepientId)
         const thisUser = await getUser(parseInt(localStorage.getItem('currUserID')))
-        fetch('/inviting', {
+        fetch(REACT_APP_SERVER_URL + '/inviting', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

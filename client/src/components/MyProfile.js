@@ -2,12 +2,13 @@ import React from 'react';
 import '../styles/MyProfile.css';
 
 export default function MyProfile() {
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     // get this user's information from the database
 
     const user_id = parseInt(window.location.href.split('/').pop());
     const [user, setUser] = React.useState({});
     React.useEffect(() => {
-        fetch('/api/users/' + user_id)
+        fetch(REACT_APP_SERVER_URL + '/api/users/' + user_id)
             .then(response => response.json())
             .then(data => {
                 if (data.length === 0) {

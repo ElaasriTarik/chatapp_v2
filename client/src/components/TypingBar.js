@@ -5,10 +5,10 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
 
 export default function TypingBar({ getMessages, setMessages }) {
-
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     const [socket, setSocket] = React.useState(null);
     React.useEffect(() => {
-        const socket = new W3CWebSocket('ws://localhost:5000');
+        const socket = new W3CWebSocket(`ws://${REACT_APP_SERVER_URL.split('//')[1]}`);
         setSocket(socket);
 
         socket.onopen = function () {
@@ -50,7 +50,7 @@ export default function TypingBar({ getMessages, setMessages }) {
     const sendMessage = () => {
         const message = {
             sender: localStorage.getItem('currUserID'),
-            receiver: parseInt(localStorage.getItem('receiver')), // Assuming you store the current user's ID in localStorage
+            receiver: parseInt(localStorage.getItem('receiver')),
             content: inputValue
         };
         socket.send(JSON.stringify({ action: 'sendMessage', message }));

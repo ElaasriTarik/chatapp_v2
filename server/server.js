@@ -80,7 +80,7 @@ const password = process.env.PASSWORD;
 const host = process.env.HOST;
 
 // connect to db
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const { connect } = require('http2');
 const { resourceLimits } = require('worker_threads');
 const { escape } = require('querystring');

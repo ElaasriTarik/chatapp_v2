@@ -2,11 +2,11 @@ import React from 'react';
 import '../styles/Friends.css'
 
 export default function FriendRequestDisplay({ name, userId }) {
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     // handle accept choice
     const [acceptedState, setAcceptedState] = React.useState('Accept')
     const handleAccept = (e) => {
-        console.log('arequest accepted');
-        fetch('/accept_request', {
+        fetch(REACT_APP_SERVER_URL + '/accept_request', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ export default function FriendRequestDisplay({ name, userId }) {
     const [DeclinedState, setDeclinedState] = React.useState('Decline')
     const handleDecline = (e) => {
         // console.log('request declined');
-        fetch('/delete_request', {
+        fetch(REACT_APP_SERVER_URL + '/delete_request', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

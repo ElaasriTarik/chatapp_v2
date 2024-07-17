@@ -2,10 +2,11 @@ import React from "react";
 import Message from '../icons/messages.png';
 
 export default function MyFriendsList() {
+    const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     // get my firneds from the database
     const [friends, setFriends] = React.useState([]);
     function getMyFriends() {
-        fetch('/getMyFriends', {
+        fetch(REACT_APP_SERVER_URL + '/getMyFriends', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

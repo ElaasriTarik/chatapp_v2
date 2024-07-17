@@ -18,14 +18,7 @@ function PrivateRoute({ children, isLoggedIn }) {
 }
 
 export default function Body({ isLoggedIn }) {
-    // check if user is logged in
 
-    // if (!isLoggedIn()) {
-    //     return (
-    //         <>
-    //             <Navigate to="/login" />
-    //         </>);
-    // }
     return (
         <Routes>
             <Route path='/login' element={<Login />} />
