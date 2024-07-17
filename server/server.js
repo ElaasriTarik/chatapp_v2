@@ -6,6 +6,7 @@ const app = express();
 const socketIo = require('socket.io');
 const port = process.env.PORT || 5000;
 const path = require('path');
+const url = require('url');
 
 // allow cros origin from https://chatapp-server-ten.vercel.app
 const allowedOrigins = ['https://chatapp-client-jet.vercel.app', 'https://chatapp-server-ten.vercel.app'];
@@ -26,7 +27,19 @@ const server = http.createServer(app);
 const WebSocket = require('ws');
 
 
-const wss = new WebSocket.Server({ server });
+// Verify clients' origin and decide whether to allow the connection
+const verifyClient = (info, done) => {
+    const origin = info.origin;
+    // Check if the origin is in the allowedOrigins list
+    if (allowedOrigins.includes(origin)) {
+        done(true); // Accept connection
+    } else {
+        console.log('Blocked origin:', origin);
+        done(false, 401, 'Unauthorized'); // Reject connection
+    }
+};
+
+const wss = new WebSocket.Server({ server, verifyClient });
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
