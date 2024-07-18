@@ -10,11 +10,11 @@ const url = require('url');
 
 // allow cros origin from https://chatapp-server-ten.vercel.app
 const allowedOrigins = ['https://chatapp-client-jet.vercel.app', 'https://chatapp-server-ten.vercel.app',
-    'https://chatapp-v2-lwyx.onrender.com', 'http://localhost', 'http://localhost:3000'];
+    'https://chatapp-v2-lwyx.onrender.com', 'http://localhost', 'http://localhost:3000', 'http://localhost:5000'];
 
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    console.log('Origin:', origin);
+
     if (allowedOrigins.includes(origin)) {
         res.header('Access-Control-Allow-Origin', origin);
     }
@@ -45,17 +45,38 @@ const wss = new WebSocket.Server({ server, verifyClient });
 
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
-
+        // console.log('received: %s', message);
         let parsedMessage;
         try {
             parsedMessage = JSON.parse(message);
+            // console.log('parsedMessage', parsedMessage);
         } catch (e) {
             console.error('Error parsing message:', message, e);
             // Optionally, you can send a message back to the client indicating the error
             ws.send(JSON.stringify({ success: false, message: 'Invalid JSON format' }));
             return; // Stop further processing
         }
-        console.log('%s', parsedMessage.actions);
+
+
+        // if user is typing
+        console.log(parsedMessage.action);
+        if (parsedMessage.action === 'typing') {
+            wss.clients.forEach(function each(client) {
+                if (client !== ws && client.readyState === WebSocket.OPEN) {
+                    const { receiver, sender } = parsedMessage;
+
+                    const data = {
+                        type: 'typing',
+                        receiver_id: parseInt(receiver),
+                        sender_id: parseInt(sender),
+                        isTyping: true
+                    }
+                    // console.log('data', data);
+                    client.send(JSON.stringify(data));
+                }
+            })
+        }
+
         if (parsedMessage.action === 'sendMessage') {
             wss.clients.forEach(function each(client) {
                 if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -75,22 +96,7 @@ wss.on('connection', function connection(ws) {
 
         }
         // Pseudocode for server handling typing notification
-        if (message.action === 'typing') {
-            wss.clients.forEach(function each(client) {
-                if (client !== ws && client.readyState === WebSocket.OPEN) {
-                    const { content, receiver, sender } = parsedMessage.message;
-                    console.log(content, receiver, sender);
-                    const data = {
-                        type: 'typing',
-                        receiver_id: parseInt(receiver),
-                        sender_id: parseInt(sender),
-                        isTyping: true
-                    }
-                    // console.log('data', data);
-                    client.send(JSON.stringify(data));
-                }
-            })
-        }
+
 
     });
 

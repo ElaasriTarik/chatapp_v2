@@ -4,11 +4,11 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 // import io from 'socket.io-client';
 
 
-export default function TypingBar({ getMessages, setMessages, contact_fullname }) {
+export default function TypingBar({ getMessages, setMessages, contact_fullname, setIsTyping }) {
     const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     const [socket, setSocket] = React.useState(null);
     React.useEffect(() => {
-        const socket = new W3CWebSocket(`wss://${REACT_APP_SERVER_URL.split('//')[1]}`);
+        const socket = new W3CWebSocket(`ws://${REACT_APP_SERVER_URL.split('//')[1]}`);
         setSocket(socket);
 
         socket.onopen = function () {
@@ -18,12 +18,17 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname }
         socket.onmessage = function (event) {
             // console.log("[message] Data received from server:", event.data);
             const data = JSON.parse(event.data);
-            if (data.action === 'typing') {
-                // Display typing indicator
-                // This could be as simple as showing a "User is typing..." message near the chat input
+            console.log(data);
+            if (data.type === 'typing') {
+                console.log('typing notification', data);
+                // console.log('typing notification', data);
+                setIsTyping(true);
+                setTimeout(() => setIsTyping(false), 2500);
+                // return;
+            } else {
+                // console.log(newMessage);
+                setMessages(prevMessages => [...prevMessages, data]);
             }
-            // console.log(newMessage);
-            setMessages(prevMessages => [...prevMessages, data]);
         };
         socket.onerror = function (event) {
             console.error("WebSocket error observed:", event);
@@ -70,7 +75,7 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname }
 
 
     const handleTyping = (e) => {
-        handleChange(e); // Call existing handleChange to update input value and adjust height
+        handleChange(e);
 
         // Send typing notification
         const typingNotification = {

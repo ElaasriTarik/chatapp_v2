@@ -164,8 +164,11 @@ export default function Messages({ isLoggedIn }) {
                         <div className='backButton' onClick={hideMessages}>
                             <img src={Left} alt='back' className='backIcon' />
                         </div>
-                        <h3>{contact_fullname}</h3>
-                        {isTyping && <span className='typing'>Typing...</span>}
+                        <div className='MsgContactInfo'>
+                            <h3>{contact_fullname}</h3>
+                            {isTyping && <span className='typing'>Typing...</span>}
+
+                        </div>
                         <div className='messageActions' >
                             <img src={moreIcon} alt='more' className='msgMoreIcon' />
                         </div>

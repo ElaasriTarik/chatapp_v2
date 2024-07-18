@@ -103,7 +103,6 @@
     font-weight: 500;
     color: #252525;
     margin-right: auto;
-    margin-bottom: 0.3rem;
 }
 
 .messagesHeader .backButton img {
@@ -116,4 +115,19 @@
 .init-chat-label {
     font-size: .7rem;
     font-weight: 400;
+}
+
+.MsgContactInfo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    line-height: .9rem;
+}
+
+.typing {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
 }
