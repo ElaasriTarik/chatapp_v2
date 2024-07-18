@@ -4,7 +4,7 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 // import io from 'socket.io-client';
 
 
-export default function TypingBar({ getMessages, setMessages }) {
+export default function TypingBar({ getMessages, setMessages, contact_fullname }) {
     const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     const [socket, setSocket] = React.useState(null);
     React.useEffect(() => {
@@ -17,9 +17,13 @@ export default function TypingBar({ getMessages, setMessages }) {
         };
         socket.onmessage = function (event) {
             // console.log("[message] Data received from server:", event.data);
-            const newMessage = JSON.parse(event.data);
+            const data = JSON.parse(event.data);
+            if (data.action === 'typing') {
+                // Display typing indicator
+                // This could be as simple as showing a "User is typing..." message near the chat input
+            }
             // console.log(newMessage);
-            setMessages(prevMessages => [...prevMessages, newMessage]);
+            setMessages(prevMessages => [...prevMessages, data]);
         };
         socket.onerror = function (event) {
             console.error("WebSocket error observed:", event);
@@ -55,7 +59,7 @@ export default function TypingBar({ getMessages, setMessages }) {
         };
         socket.send(JSON.stringify({ action: 'sendMessage', message }));
         setInputValue(''); // Clear input field after sending
-        getMessages(parseInt(localStorage.getItem('receiver')));
+        getMessages(parseInt(localStorage.getItem('receiver')), contact_fullname);
         // make the textarea height back to normal
         const textarea = document.querySelector('.input');
         textarea.style.height = 'auto';
@@ -65,9 +69,22 @@ export default function TypingBar({ getMessages, setMessages }) {
     }
 
 
+    const handleTyping = (e) => {
+        handleChange(e); // Call existing handleChange to update input value and adjust height
+
+        // Send typing notification
+        const typingNotification = {
+            sender: localStorage.getItem('currUserID'),
+            receiver: parseInt(localStorage.getItem('receiver')),
+            action: 'typing',
+        };
+        socket.send(JSON.stringify(typingNotification));
+    };
+
+
     return (
         <div className='typingBar'>
-            <textarea placeholder='Type something...' className='input' onChange={(e) => handleChange(e)} value={inputValue} id='autoresizing'></textarea>
+            <textarea placeholder='Type something...' className='input' onChange={handleTyping} value={inputValue} id='autoresizing'></textarea>
             <div className='sendButton' onClick={sendMessage}>
                 <img src={sendLogo} alt='send button' className='sendBtn' />
             </div>

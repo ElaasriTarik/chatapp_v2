@@ -13,19 +13,22 @@ export default function Messages({ isLoggedIn }) {
 
     // function to get messages between two users
     const [contact_fullname, setContact_fullname] = React.useState('');
+    const [isTyping, setIsTyping] = React.useState(false);
     const [messages, setMessages] = React.useState([]);
 
     React.useEffect(() => {
 
-        if (messages.length >= 0) {
+        if (messages.length > 0) {
             const currentUser = parseInt(localStorage.getItem('currUserID'));
             const receiver = parseInt(localStorage.getItem('receiver'));
             const messagesLength = messages.length;
-            if (messagesLength === 0) {
-                // getMessages(receiver, contact_fullname);
-            }
-            else if (parseInt(messages[messagesLength - 1].sender_id) === receiver && parseInt(messages[messagesLength - 1].receiver_id) === currentUser) {
-                createMessages(messages, contact_fullname);
+            // if (messagesLength === 0) {
+            //     console.log('No messages found');
+            //     // setMessages({ id: 0, content: 'No messages found', status: 'noMessages' });
+            //     createMessages([{ id: 0, content: 'No messages found', status: 'noMessages' }], 0);
+            // }
+            if (parseInt(messages[messagesLength - 1].sender_id) === receiver && parseInt(messages[messagesLength - 1].receiver_id) === currentUser) {
+                createMessages(messages, 1);
             }
         }
     }, [messages]);
@@ -42,10 +45,16 @@ export default function Messages({ isLoggedIn }) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('messages', data);
-                setMessages(data);
-                setContact_fullname(contact_fullname);
-                createMessages(data, contact_fullname);
+                if (data.length === 0) {
+                    console.log('empty chat');
+                    setMessages([{ id: 0, content: 'No messages found', status: 'noMessages', date_sent: new Date().toISOString(), sender_id: 0, receiver_id: 1 }], contact_fullname);
+                    createMessages(messages)
+                } else {
+                    console.log('messages', data);
+                    setContact_fullname(contact_fullname);
+                    setMessages(data);
+                    createMessages(data, contact_fullname);
+                }
             })
             .catch(error => console.error('Error fetching messages:', error));
 
@@ -58,8 +67,8 @@ export default function Messages({ isLoggedIn }) {
         // display messages between the user and the selected contact
         const messageTag = e.target.closest('.message-req-tag');
 
-        console.log(messageTag);
         setMessages(true);
+        console.log(contact_fullname);
         setContact_fullname(contact_fullname);
         localStorage.setItem('receiver', messageTag.dataset.friendId);
         getMessages(parseInt(messageTag.dataset.friendId), contact_fullname);
@@ -69,20 +78,12 @@ export default function Messages({ isLoggedIn }) {
 
     // function to create messages
     const [messagesHTML, setMessagesHTML] = React.useState([]);
-    function createMessages(messages, contact_fullname, noMessages) {
+    function createMessages(messages, noMessages) {
         // console.log(messages);
         const currUser = parseInt(localStorage.getItem('currUserID'));
-        if (noMessages) {
-            const messagesHTML = (
-                <>
-                    <div className='noMessages'>
-                        <h3>{noMessages}</h3>
-                    </div>
-                </>
-            );
-            setMessagesHTML(messagesHTML);
-            return;
-        }
+
+
+        // return;
         const messagesLen = messages.length;
         const messagesHTML = (
             <>
@@ -95,6 +96,7 @@ export default function Messages({ isLoggedIn }) {
             </>
         );
         setMessagesHTML(messagesHTML);
+
     }
 
     function hideMessages() {
@@ -163,13 +165,14 @@ export default function Messages({ isLoggedIn }) {
                             <img src={Left} alt='back' className='backIcon' />
                         </div>
                         <h3>{contact_fullname}</h3>
+                        {isTyping && <span className='typing'>Typing...</span>}
                         <div className='messageActions' >
                             <img src={moreIcon} alt='more' className='msgMoreIcon' />
                         </div>
                     </div>
                     {messagesHTML}
                     <div ref={messagesEndRef} /> {/* Invisible element to scroll into view */}
-                    <TypingBar getMessages={getMessages} setMessages={setMessages} />
+                    <TypingBar getMessages={getMessages} setMessages={setMessages} contact_fullname={contact_fullname} setIsTyping={setIsTyping} />
                 </div>
             }
         </div>

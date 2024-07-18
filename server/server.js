@@ -74,6 +74,24 @@ wss.on('connection', function connection(ws) {
             sendMessage(parsedMessage.message, ws);
 
         }
+        // Pseudocode for server handling typing notification
+        if (message.action === 'typing') {
+            wss.clients.forEach(function each(client) {
+                if (client !== ws && client.readyState === WebSocket.OPEN) {
+                    const { content, receiver, sender } = parsedMessage.message;
+                    console.log(content, receiver, sender);
+                    const data = {
+                        type: 'typing',
+                        receiver_id: parseInt(receiver),
+                        sender_id: parseInt(sender),
+                        isTyping: true
+                    }
+                    // console.log('data', data);
+                    client.send(JSON.stringify(data));
+                }
+            })
+        }
+
     });
 
     ws.on('error', function error(err) {
