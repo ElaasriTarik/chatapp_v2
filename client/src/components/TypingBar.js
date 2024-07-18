@@ -8,7 +8,7 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname, 
     const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     const [socket, setSocket] = React.useState(null);
     React.useEffect(() => {
-        const socket = new W3CWebSocket(`wss://${REACT_APP_SERVER_URL.split('//')[1]}`);
+        const socket = new W3CWebSocket(`ws://${REACT_APP_SERVER_URL.split('//')[1]}`);
         setSocket(socket);
 
         socket.onopen = function () {
@@ -30,7 +30,6 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname, 
                 }
 
             } else {
-                // console.log(newMessage);
                 setMessages(prevMessages => [...prevMessages, data]);
             }
         };

@@ -177,7 +177,7 @@ function sendMessage(messageData, ws) {
         content: content,
         receiver_id: parseInt(receiver),
         sender_id: parseInt(sender),
-        date_sent: new Date()
+        date_sent: new Date().toISOString()
     }
     const query = 'INSERT INTO messages SET ?';
     connection.query(query, data, (err, response) => {
@@ -215,7 +215,15 @@ app.post('/getMessages', (req, res) => {
         res.json(response);
     })
 })
-
+// set messages as seen when user open conversation
+app.post('/setMessagesAsSeen', (req, res) => {
+    const { receiver, sender } = req.body;
+    const query = "UPDATE messages SET seen = 'seen' WHERE receiver_id = ? AND sender_id = ?";
+    connection.query(query, [receiver, sender], (err, response) => {
+        if (err) throw err;
+        res.json({ success: true });
+    });
+})
 // creating account
 app.post('/createAccount', (req, res) => {
     const data = req.body;

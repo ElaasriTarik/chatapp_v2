@@ -52,6 +52,7 @@ export default function Messages({ isLoggedIn }) {
                 } else {
                     console.log('messages', data);
                     setContact_fullname(contact_fullname);
+                    setIsSeen(false);
                     setMessages(data);
                     createMessages(data, contact_fullname);
                 }
@@ -71,13 +72,27 @@ export default function Messages({ isLoggedIn }) {
         console.log(contact_fullname);
         setContact_fullname(contact_fullname);
         localStorage.setItem('receiver', messageTag.dataset.friendId);
+        setMessagesAsSeen(messageTag);
         getMessages(parseInt(messageTag.dataset.friendId), contact_fullname);
-
     }
-
+    // set messages as seen
+    function setMessagesAsSeen(messageTag) {
+        fetch(REACT_APP_SERVER_URL + '/setMessagesAsSeen', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ receiver: parseInt(messageTag.dataset.friendId), sender: parseInt(localStorage.getItem('currUserID')) })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('seen');
+            })
+    }
 
     // function to create messages
     const [messagesHTML, setMessagesHTML] = React.useState([]);
+    const [isSeen, setIsSeen] = React.useState(false);
     function createMessages(messages, noMessages) {
         // console.log(messages);
         const currUser = parseInt(localStorage.getItem('currUserID'));
@@ -85,9 +100,14 @@ export default function Messages({ isLoggedIn }) {
 
         // return;
         const messagesLen = messages.length;
+        const sortedMessages = messages.map(message => {
+            // Convert timestamp to local time
+            const localTime = new Date(message.timestamp).toLocaleString();
+            return { ...message, timestamp: localTime };
+        }).sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
         const messagesHTML = (
             <>
-                {messagesLen + 1 && messages.map(message => (
+                {messagesLen + 1 && sortedMessages.map(message => (
                     <div key={message.id} className={`message ${message.sender_id === currUser ? 'currentUserMessage' : 'senderUser'}`} data-sender={message.sender_id} data-receiver={message.receiver_id}>
                         <p>{message.content}</p>
                         <span className='date'>{message.date_sent.split('T')[1].slice(0, 5)}</span>
@@ -95,6 +115,9 @@ export default function Messages({ isLoggedIn }) {
                 ))}
             </>
         );
+        if (sortedMessages[messagesLen - 1].seen = 'seen') {
+            setIsSeen(true);
+        }
         setMessagesHTML(messagesHTML);
 
     }
@@ -174,6 +197,7 @@ export default function Messages({ isLoggedIn }) {
                         </div>
                     </div>
                     {messagesHTML}
+                    {isSeen && <p className='seen'>Seen</p>}
                     <div ref={messagesEndRef} /> {/* Invisible element to scroll into view */}
                     <TypingBar getMessages={getMessages} setMessages={setMessages} contact_fullname={contact_fullname} setIsTyping={setIsTyping} />
                 </div>
