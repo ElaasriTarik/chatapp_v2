@@ -8,7 +8,7 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname, 
     const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     const [socket, setSocket] = React.useState(null);
     React.useEffect(() => {
-        const socket = new W3CWebSocket(`wss://${REACT_APP_SERVER_URL.split('//')[1]}`);
+        const socket = new W3CWebSocket(`ws://${REACT_APP_SERVER_URL.split('//')[1]}`);
         setSocket(socket);
 
         socket.onopen = function () {
@@ -17,14 +17,18 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname, 
         };
         socket.onmessage = function (event) {
             // console.log("[message] Data received from server:", event.data);
+            const receiver = parseInt(localStorage.getItem('receiver'));
+            const currentUser = parseInt(localStorage.getItem('currUserID'));
             const data = JSON.parse(event.data);
             console.log(data);
             if (data.type === 'typing') {
                 console.log('typing notification', data);
                 // console.log('typing notification', data);
-                setIsTyping(true);
-                setTimeout(() => setIsTyping(false), 2500);
-                // return;
+                if (parseInt(data.sender_id) === receiver && parseInt(data.receiver_id) === currentUser) {
+                    setIsTyping(true);
+                    setTimeout(() => setIsTyping(false), 2500);
+                }
+
             } else {
                 // console.log(newMessage);
                 setMessages(prevMessages => [...prevMessages, data]);

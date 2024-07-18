@@ -2,11 +2,13 @@ import React from 'react';
 import './createAccounts.css';
 import CreateAccounts from './CreateAccounts.js';
 import { Link, Navigate } from 'react-router-dom';
+import { shouldUseFlatConfig } from 'eslint/use-at-your-own-risk';
 
 export default function Login(props) {
     const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
 
     const [createOrLogin, setCreateOrLogin] = React.useState(true);
+    const [loginStatus, setLoginStatus] = React.useState('');
     // listening on type
     const [inputValues, setInputValue] = React.useState({
         username: '',
@@ -17,6 +19,7 @@ export default function Login(props) {
             ...prev,
             [e.target.id]: e.target.value
         }));
+        setLoginStatus('');
     }
     // console.log(inputValues);
     // sending message to backend
@@ -40,6 +43,8 @@ export default function Login(props) {
                     // props.setisLoggedIn(true)
                     // go to home page after login succes
                     window.location.href = '/';
+                } else {
+                    setLoginStatus('Invalid username or password');
                 }
             })
             .catch(error => console.error('Error logging in:', error));
@@ -58,6 +63,7 @@ export default function Login(props) {
                         <div className='inputFields'>
                             <input type='text' placeholder='Username' className='input' onChange={(e) => handleChange(e)} id='username' />
                             <input type='password' placeholder='Password' className='input' onChange={(e) => handleChange(e)} id='password' />
+                            <p className='loginFailed'>{loginStatus}</p>
                             <button className='createButton' onClick={createAcc}>Log-in</button>
                             <p onClick={handleCreateAcc}>Don't have an account? <Link to='/createAccount'>Create</Link></p>
                         </div>

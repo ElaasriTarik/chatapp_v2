@@ -59,3 +59,9 @@
     cursor: pointer;
 
 }
+
+.loginFailed {
+    color: rgb(252, 128, 128);
+    font-weight: 500;
+    font-size: .9rem;
+}
