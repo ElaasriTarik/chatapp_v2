@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^5.9.0",
+    "@craco/craco": "^7.1.0",
     "@svgr/plugin-svgo": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -12,14 +12,19 @@
     "@testing-library/user-event": "^13.5.0",
     "assert": "^2.1.0",
     "assets": "^3.0.1",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
     "date-fns": "^3.6.0",
     "jquery": "^3.6.0",
+    "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
     "react-scripts": "^5.0.1",
     "socket.io-client": "^4.7.5",
+    "stream-browserify": "^3.0.0",
+    "url": "^0.11.3",
     "util": "^0.12.5",
     "web-vitals": "^2.1.4",
     "websocket": "^1.0.35"
@@ -32,9 +37,9 @@
     "babel-jest": "^29.7.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

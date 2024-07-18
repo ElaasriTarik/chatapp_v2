@@ -59,7 +59,7 @@ wss.on('connection', function connection(ws) {
 
 
         // if user is typing
-        console.log(parsedMessage.action);
+        // console.log(parsedMessage.action);
         if (parsedMessage.action === 'typing') {
             wss.clients.forEach(function each(client) {
                 if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -81,7 +81,7 @@ wss.on('connection', function connection(ws) {
             wss.clients.forEach(function each(client) {
                 if (client !== ws && client.readyState === WebSocket.OPEN) {
                     const { content, receiver, sender } = parsedMessage.message;
-                    console.log(content, receiver, sender);
+                    // console.log(content, receiver, sender);
                     const data = {
                         content: content,
                         receiver_id: parseInt(receiver),
@@ -268,7 +268,7 @@ app.post('/login', (req, res) => {
                 fullname: response[0].fullname,
                 id: response[0].id
             })
-            console.log(res);
+            // console.log(res);
         } else {
             console.log('Login failed');
             res.json({

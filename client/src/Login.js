@@ -2,7 +2,7 @@ import React from 'react';
 import './createAccounts.css';
 import CreateAccounts from './CreateAccounts.js';
 import { Link, Navigate } from 'react-router-dom';
-import { shouldUseFlatConfig } from 'eslint/use-at-your-own-risk';
+
 
 export default function Login(props) {
     const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
