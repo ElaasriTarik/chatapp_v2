@@ -73,6 +73,7 @@ export default function Messages({ isLoggedIn }) {
         setContact_fullname(contact_fullname);
         localStorage.setItem('receiver', messageTag.dataset.friendId);
         setMessagesAsSeen(messageTag);
+        setIsSeen('');
         getMessages(parseInt(messageTag.dataset.friendId), contact_fullname);
     }
     // set messages as seen
@@ -121,7 +122,8 @@ export default function Messages({ isLoggedIn }) {
                 ))}
             </>
         );
-        if (sortedMessages[messagesLen - 1].seen = 'seen') {
+        console.log(sortedMessages[messagesLen - 1].seen);
+        if (sortedMessages[messagesLen - 1].seen === 'seen') {
             setIsSeen(true);
         }
         setMessagesHTML(messagesHTML);
@@ -205,7 +207,7 @@ export default function Messages({ isLoggedIn }) {
                     {messagesHTML}
                     {isSeen && <p className='seen'>Seen</p>}
                     <div ref={messagesEndRef} /> {/* Invisible element to scroll into view */}
-                    <TypingBar getMessages={getMessages} setMessages={setMessages} contact_fullname={contact_fullname} setIsTyping={setIsTyping} />
+                    <TypingBar getMessages={getMessages} setMessages={setMessages} contact_fullname={contact_fullname} setIsTyping={setIsTyping} setIsSeen={setIsSeen} />
                 </div>
             }
         </div>

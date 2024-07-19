@@ -4,7 +4,7 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 // import io from 'socket.io-client';
 
 
-export default function TypingBar({ getMessages, setMessages, contact_fullname, setIsTyping }) {
+export default function TypingBar({ getMessages, setMessages, contact_fullname, setIsTyping, setIsSeen }) {
     const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
     const [socket, setSocket] = React.useState(null);
     React.useEffect(() => {
@@ -30,6 +30,7 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname, 
                 }
 
             } else {
+
                 setMessages(prevMessages => [...prevMessages, data]);
             }
         };
@@ -67,6 +68,8 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname, 
         };
         socket.send(JSON.stringify({ action: 'sendMessage', message }));
         setInputValue(''); // Clear input field after sending
+        // setting the messages as NOT SEEN
+        setIsSeen(false);
         getMessages(parseInt(localStorage.getItem('receiver')), contact_fullname);
         // make the textarea height back to normal
         const textarea = document.querySelector('.input');
@@ -89,6 +92,17 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname, 
         socket.send(JSON.stringify(typingNotification));
     };
 
+
+    // mark as seen
+    const markMessageAsSeen = (messageId) => {
+        const seenNotification = JSON.stringify({
+            type: 'seen',
+            messageId: messageId,
+            senderId: localStorage.getItem('currUserID'),
+            receiverId: parseInt(localStorage.getItem('receiver')),
+        });
+        socket.send(seenNotification);
+    };
 
     return (
         <div className='typingBar'>
