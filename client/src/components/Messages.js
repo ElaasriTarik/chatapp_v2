@@ -110,7 +110,13 @@ export default function Messages({ isLoggedIn }) {
                 {messagesLen + 1 && sortedMessages.map(message => (
                     <div key={message.id} className={`message ${message.sender_id === currUser ? 'currentUserMessage' : 'senderUser'}`} data-sender={message.sender_id} data-receiver={message.receiver_id}>
                         <p>{message.content}</p>
-                        <span className='date'>{message.date_sent.split('T')[1].slice(0, 5)}</span>
+                        <span className='date'>{
+                            message.date_sent.includes('T') ?
+                                message.date_sent.split('T')[1].slice(0, 5)
+                                :
+                                message.date_sent.split(' ')[1].slice(0, 5)
+
+                        }</span>
                     </div>
                 ))}
             </>

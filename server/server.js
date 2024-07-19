@@ -169,6 +169,7 @@ app.get('/submit-data', (req, res) => {
     });
 
 })
+const moment = require('moment-timezone');
 function sendMessage(messageData, ws) {
     const { content, receiver, sender } = messageData;
     // console.log(messageData);
@@ -177,7 +178,7 @@ function sendMessage(messageData, ws) {
         content: content,
         receiver_id: parseInt(receiver),
         sender_id: parseInt(sender),
-        date_sent: new Date().toISOString()
+        date_sent: moment.utc().add(1, 'hours').format()
     }
     const query = 'INSERT INTO messages SET ?';
     connection.query(query, data, (err, response) => {
@@ -193,7 +194,7 @@ app.post('/sendMessage', (req, res) => {
         content: message,
         receiver_id: receiver,
         sender_id: sender,
-        date_sent: new Date()
+        date_sent: moment.utc().add(1, 'hours').format()
     }
     const query = 'INSERT INTO messages SET ?';
     connection.query(query, data, (err, response) => {
