@@ -22,7 +22,6 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname, 
             const data = JSON.parse(event.data);
             console.log(data);
             if (data.type === 'typing') {
-                console.log('typing notification', data);
                 // console.log('typing notification', data);
                 if (parseInt(data.sender_id) === receiver && parseInt(data.receiver_id) === currentUser) {
                     setIsTyping(true);
