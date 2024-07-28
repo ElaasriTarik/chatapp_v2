@@ -1,245 +1,247 @@
 .postsPage {
-    width: 100%;
-    height: auto;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: .6rem;
-    z-index: 1;
-    padding: .5rem;
-    position: relative;
-    overflow-y: auto;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+  z-index: 1;
+  padding: .5rem;
+  position: relative;
+  overflow-y: auto;
 }
 
 .postsPage .writeYourPost {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: .6rem;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .6rem;
 
-    border-radius: 5px;
-    box-shadow: 0 0 5px #c9c9c9;
-    padding: .5rem;
-    margin-top: .5rem;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #c9c9c9;
+  padding: .5rem;
+  margin-top: .5rem;
 }
 
 .postsPage .writeYourPost h1 {
-    font-size: 1.1rem;
-    margin: 0;
-    padding: 0;
-    color: #3b3b3b;
+  font-size: 1.1rem;
+  margin: 0;
+  padding: 0;
+  color: #3b3b3b;
 }
 
 .postsPage .writeYourPost textarea {
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    width: 100%;
-    min-height: 2.5rem;
-    overflow-y: hidden;
-    resize: none;
-    border-radius: 4px;
-    margin-bottom: .1rem;
-    padding: .2rem 1rem;
-    background-color: #f5f3f3;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+  min-height: 2.5rem;
+  overflow-y: hidden;
+  resize: none;
+  border-radius: 4px;
+  margin-bottom: .1rem;
+  padding: .2rem 1rem;
+  background-color: #f5f3f3;
 }
 
 .postsPage .writeYourPost .postBtn {
-    min-width: 3rem;
-    height: auto;
-    background-color: #bff4f0;
-    background-color: #f5f3f3;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    padding: 0.4rem .8rem;
-    margin-bottom: .3rem;
-    margin-right: .2rem;
-    font-weight: 600;
-    color: #252525;
+  min-width: 3rem;
+  height: auto;
+  background-color: #bff4f0;
+  background-color: #f5f3f3;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 0.4rem .8rem;
+  margin-bottom: .3rem;
+  margin-right: .2rem;
+  font-weight: 600;
+  color: #252525;
 }
 
 .postsPage .postsArea {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    padding-bottom: 2rem;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  padding-bottom: 2rem;
 }
 
 .postsPage .postsArea h1 {
-    align-self: flex-start;
-    font-weight: 600;
-    font-size: 1.3rem;
-    margin-bottom: .5rem;
+  align-self: flex-start;
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: .5rem;
 }
 
 .postsPage .post {
-    width: 100%;
-    height: auto;
-    min-height: 7rem;
-    display: flex;
-    flex-direction: column;
-    gap: .6rem;
-    align-items: flex-start;
-    padding: .5rem;
-    border-radius: 5px;
-    box-shadow: 0 0 .9px #c9c9c9;
-    position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 7rem;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  align-items: flex-start;
+  padding: .5rem;
+  border-radius: 5px;
+  box-shadow: 0 0 .9px #c9c9c9;
+  position: relative;
 }
 
 .outerPost {
-    gap: 1rem;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: auto;
-    min-height: 7rem;
-    display: flex;
-    flex-direction: column;
-    gap: .6rem;
-    align-items: flex-start;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  min-height: 7rem;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  align-items: flex-start;
 
-    border-radius: 5px;
-    position: relative;
+  border-radius: 5px;
+  position: relative;
 }
 
 .postsPage .post .postHeader,
 .outerPost .comments .commentHeader {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    gap: .6rem;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: .6rem;
 }
 
 .outerPost .comments .commentHeader {
-    padding-left: .5rem;
-    padding-top: .5rem;
+  padding-left: .5rem;
+  padding-top: .5rem;
 }
 
 .postsPage .post .postHeader .postInfo,
 .outerPost .comments .commentHeader .commentInfo {
-    margin-right: auto;
+  margin-right: auto;
 }
 
 .postsPage .post .postHeader .profilePic img,
 .outerPost .comments .commentHeader .profilePic img {
-    max-width: 2.3rem;
-    height: auto;
-    border-radius: 50%;
+  max-width: 2.3rem;
+  height: auto;
+  border-radius: 50%;
+  width: 2.3rem;
+
 }
 
 .outerPost .comments .commentHeader .profilePic img {
-    max-width: 1.9rem;
+  max-width: 1.9rem;
 }
 
 .postAuthor,
 .commentAuthor {
-    font-size: .9rem;
-    color: #252525;
-    letter-spacing: 0.4px;
-    padding: 0;
-    margin: 0;
-    font-weight: 600;
+  font-size: .9rem;
+  color: #252525;
+  letter-spacing: 0.4px;
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
 }
 
 .commentAuthor {
-    font-size: .8rem;
+  font-size: .8rem;
 
 }
 
 .postDate,
 .commentDate {
-    font-size: 0.8rem;
-    color: #252525;
-    letter-spacing: 0.1px;
+  font-size: 0.8rem;
+  color: #252525;
+  letter-spacing: 0.1px;
 }
 
 .commentDate {
-    font-size: .7rem;
+  font-size: .7rem;
 
 }
 
 .post .postContent,
 .outerPost .comments .commentContent {
-    width: 100%;
-    height: auto;
-    padding: 0 .5rem;
-    margin-bottom: 1rem;
+  width: 100%;
+  height: auto;
+  padding: 0 .5rem;
+  margin-bottom: 1rem;
 }
 
 .postsPage .post .postContent p {
-    color: #373737;
-    font-size: 0.9rem;
-    font-weight: 500;
+  color: #373737;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .postActions {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: .6rem;
-    padding: 0 1rem;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .6rem;
+  padding: 0 1rem;
 }
 
 .postActions button {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    padding: .1rem .4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: .3rem;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  padding: .1rem .4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .3rem;
 }
 
 .postActions button:hover {
-    border-bottom: 2px solid #252525;
+  border-bottom: 2px solid #252525;
 }
 
 .postActions button img {
-    max-width: 1rem;
-    height: auto;
+  max-width: 1rem;
+  height: auto;
 }
 
 .outerPost .comments {
-    max-width: 100%;
-    height: auto;
-    min-height: 8rem;
-    margin-left: 1rem;
-    border-left: 1px solid #2f2f2f;
+  max-width: 100%;
+  height: auto;
+  min-height: 8rem;
+  margin-left: 1rem;
+  border-left: 1px solid #2f2f2f;
 }
 
 .outerPost .comment {
-    box-shadow: 0 0 5px #c9c9c9;
-    margin-left: .3rem;
-    margin-top: .3rem;
-    border-radius: 10px;
-    height: max-content;
-    padding-bottom: .5rem;
-    gap: .4rem;
-    display: flex;
-    flex-direction: column;
+  box-shadow: 0 0 5px #c9c9c9;
+  margin-left: .3rem;
+  margin-top: .3rem;
+  border-radius: 10px;
+  height: max-content;
+  padding-bottom: .5rem;
+  gap: .4rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .outerPost .comment .commentContent {
-    padding-left: 1rem;
-    font-size: .9rem;
+  padding-left: 1rem;
+  font-size: .9rem;
 }

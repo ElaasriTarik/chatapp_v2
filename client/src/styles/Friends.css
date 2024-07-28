@@ -1,162 +1,164 @@
 .friendsContainer {
-    width: 100%;
-    height: auto;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 1rem .4rem;
-    gap: .5rem;
-    position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem .4rem;
+  gap: .5rem;
+  position: relative;
 
 }
 
 .friends-sugg-tag,
 .friend-reqs-page,
 .friends {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    /* padding: 1rem .4rem; */
-    /* gap: .5rem; */
-    position: relative;
-    overflow: auto;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* padding: 1rem .4rem; */
+  gap: .1rem;
+  position: relative;
+  overflow: auto;
 }
 
 .friends-sugg-tag h2,
 .friend-reqs-page h2,
 .friends h2 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: #252525;
-    align-self: flex-start;
-    margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #252525;
+  align-self: flex-start;
+  margin-bottom: 1rem;
 }
 
 .friends-actions {
-    display: flex;
-    gap: .5rem;
-    max-width: max-content;
-    align-items: center;
-    justify-content: center;
-    align-self: flex-start;
-    position: relative;
+  display: flex;
+  gap: .5rem;
+  max-width: max-content;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  position: relative;
 }
 
 .friends-actions button {
-    padding: 0.3rem 0.7rem;
-    border: none;
-    border-radius: 10px;
-    background-color: rgb(242, 242, 242);
-    font-weight: 500;
-    color: #252525;
-    cursor: pointer;
-    font-size: 0.8rem;
-    position: relative;
+  padding: 0.3rem 0.7rem;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(242, 242, 242);
+  font-weight: 500;
+  color: #252525;
+  cursor: pointer;
+  font-size: 0.8rem;
+  position: relative;
 }
 
 .friend-req-tag,
 .friends-list .friend-tag {
-    width: 100%;
-    height: 3.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    gap: .9rem;
-    /* background-color: # fff; */
-    border-radius: 5px;
-    padding: .5rem;
-    padding: .5rem;
-    border-radius: 5px;
-    /* box-shadow: 0 0 5px #c9c9c9; */
-    position: relative;
-    cursor: pointer;
-    padding-top: 0;
-    padding-bottom: 0;
+  width: 100%;
+  height: 3.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: .9rem;
+  /* background-color: # fff; */
+  border-radius: 5px;
+  padding: .5rem;
+  padding: .5rem;
+  border-radius: 5px;
+  /* box-shadow: 0 0 5px #c9c9c9; */
+  position: relative;
+  cursor: pointer;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .friend-tag {
-    min-width: 100%;
+  min-width: 100%;
 }
 
 .friend-req-tag:hover {
-    box-shadow: 0 0 10px #c9c9c9;
+  box-shadow: 0 0 10px #c9c9c9;
 }
 
 .friend-req-tag .friendProfilePic img,
 .friends-list .friendProfilePic img {
-    max-width: 2.3rem;
-    height: auto;
-    border-radius: 50%;
+  max-width: 2.3rem;
+  height: 100px;
+  border-radius: 50%;
+  width: 2.3rem;
 }
 
 .friendProfilePic {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .friend-req-tag .friendInfo,
 .friends-list .friendInfo {
-    margin-right: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .friend-req-tag .friendName,
 .friends-list .friendName {
-    font-size: .85rem;
-    font-weight: 400;
-    color: #252525;
+  font-size: .85rem;
+  font-weight: 400;
+  color: #252525;
 }
 
 .friend-req-tag .friendActions {
-    display: flex;
-    gap: .5rem;
-    max-width: max-content;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  gap: .5rem;
+  max-width: max-content;
+  align-items: center;
+  justify-content: center;
 }
 
 .friend-req-tag .inviteBtn {
-    padding: .2rem .6rem;
-    border: none;
-    background-color: rgb(144, 196, 196);
-    border-radius: 3px;
-    font-weight: 600;
-    max-width: 5.8rem;
-    color: #252525;
-    cursor: pointer;
-    color: rgb(250, 250, 250);
-    font-size: 0.8rem;
+  padding: .2rem .6rem;
+  border: none;
+  background-color: rgb(144, 196, 196);
+  border-radius: 3px;
+  font-weight: 600;
+  max-width: 5.8rem;
+  color: #252525;
+  cursor: pointer;
+  color: rgb(250, 250, 250);
+  font-size: 0.8rem;
 }
 
 .friend-req-tag .removeBtn {
-    padding: .2rem .6rem;
-    border: none;
-    background-color: rgb(236, 243, 247);
-    border-radius: 3px;
-    font-weight: 600;
-    max-width: 4.5rem;
-    color: #252525;
-    cursor: pointer;
-    color: rgb(70, 63, 63);
-    font-size: 0.8rem;
+  padding: .2rem .6rem;
+  border: none;
+  background-color: rgb(236, 243, 247);
+  border-radius: 3px;
+  font-weight: 600;
+  max-width: 4.5rem;
+  color: #252525;
+  cursor: pointer;
+  color: rgb(70, 63, 63);
+  font-size: 0.8rem;
 }
 
 .friends-list .messageBtn {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .friends-list .messageBtn img {
-    max-width: 1.7rem;
-    height: auto;
+  max-width: 1.7rem;
+  height: auto;
+  display: none;
 }
