@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Friends.css'
+import { useNavigate } from 'react-router-dom';
 
 export default function FriendDisplay({ name, userId, friend }) {
   const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
@@ -51,13 +52,20 @@ export default function FriendDisplay({ name, userId, friend }) {
     }
   }
 
+
+  // clicking on a user should take you to his profile page
+  const navigate = useNavigate();
+  const handlUsernameClicked = (e) => {
+    const user = parseInt(e.target.id.split('-')[1]);
+    navigate(`/profile/${user}`);
+  }
   return (
     <div className='friend-req-tag'>
       <div className='friendProfilePic'>
         <img src={friend.profilePic_link} alt='profile pic' />
       </div>
       <div className='friendInfo' id={`user-${userId}`}>
-        <h3 className='friendName'>{name}</h3>
+        <h3 className='friendName' id={`user-${userId}`} onClick={(e) => handlUsernameClicked(e)}>{name}</h3>
         <div className='friendActions'>
           <button className='inviteBtn' onClick={(e) => handleInvite(e, name)}>{isInvited}</button>
           <button className='removeBtn'>Remove</button>

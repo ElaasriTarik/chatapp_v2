@@ -74,17 +74,6 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Hello from node!');
 });
-// app.get('/submit-data', (req, res) => {
-//   const data = req.body;
-//   // console.log(data);
-//   res.send('Data received');
-//   res.json({
-//     success: true,
-//     message: 'Data received successfully',
-//     data: data
-//   });
-
-// })
 
 
 // get a certain user from database

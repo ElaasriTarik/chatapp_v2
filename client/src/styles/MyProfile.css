@@ -1,51 +1,85 @@
 .myProfile {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    width: 100%;
-    height: auto;
-    min-height: 100%;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem .4rem;
-    position: relative;
-    top: -8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem .4rem;
+  position: relative;
+  top: -8rem;
 }
 
 .myProfile .profileInfo .profileDetails {
-    display: flex;
-    gap: rem;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: auto;
-    min-height: 5rem;
-    padding: .3rem;
-    position: relative;
+  display: flex;
+  gap: rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  min-height: 5rem;
+  padding: .3rem;
+  position: relative;
 }
 
 .profile-pic {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-pic img {
-    max-width: 7rem;
-    border-radius: 50%;
+  max-width: 7rem;
+  border-radius: 50%;
 }
 
 .fullname {
-    font-size: 1.4rem;
-    font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .bio {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #252525;
-    margin-bottom: .5rem;
-    font-style: italic;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #252525;
+  margin-bottom: .5rem;
+  font-style: italic;
+}
+
+.friendActions {
+  display: flex;
+  gap: .5rem;
+  max-width: max-content;
+  align-items: center;
+  justify-content: center;
+}
+
+.inviteBtn {
+  padding: .2rem .6rem;
+  border: none;
+  background-color: rgb(144, 196, 196);
+  border-radius: 3px;
+  font-weight: 600;
+  max-width: 5.8rem;
+  color: #252525;
+  cursor: pointer;
+  color: rgb(250, 250, 250);
+  font-size: 0.8rem;
+}
+
+.removeBtn {
+  padding: .2rem .6rem;
+  border: none;
+  background-color: rgb(236, 243, 247);
+  border-radius: 3px;
+  font-weight: 600;
+  max-width: 4.5rem;
+  color: #252525;
+  cursor: pointer;
+  color: rgb(70, 63, 63);
+  font-size: 0.8rem;
 }
