@@ -2,9 +2,24 @@ const connection = require('./db_connection');
 
 
 // fettch all users
-const friends = (req, res) => {
+const suggestions = (req, res) => {
   const { user_id } = req.body;
-  connection.query('SELECT id, username, fullname, date_created, bio, profilePic_link FROM users WHERE id != ?', user_id, (err, response) => {
+  const query = `
+    SELECT id, username, fullname, date_created, bio, profilePic_link 
+    FROM users 
+    WHERE id != ? 
+    AND id NOT IN (
+      SELECT CASE 
+        WHEN user_id1 = ? THEN user_id2 
+        WHEN user_id2 = ? THEN user_id1 
+      END 
+      FROM friends 
+      WHERE (user_id1 = ? OR user_id2 = ?) 
+      AND status = 'accepted'
+    )
+  `;
+
+  connection.query(query, [user_id, user_id, user_id, user_id, user_id], (err, response) => {
     if (err) {
       throw err;
     };
@@ -154,4 +169,4 @@ const getMyFriends = (req, res) => {
   });
 }
 
-module.exports = { friends, inviting, checkforInvites, delete_request, accept_request, getMyFriends };
+module.exports = { suggestions, inviting, checkforInvites, delete_request, accept_request, getMyFriends };

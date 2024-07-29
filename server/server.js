@@ -13,7 +13,7 @@ const connection = require('./db_connection');
 const { handleDislike, post, handleLike, getPosts } = require('./posts_handling');
 const { login, createAccount } = require('./accountsAndLogin');
 const { sendMessage, setMessagesAsSeen, getMessages } = require('./messagesHandling');
-const { friends, inviting, checkforInvites, delete_request, accept_request, getMyFriends } = require('./friendsAndusers');
+const { suggestions, inviting, checkforInvites, delete_request, accept_request, getMyFriends } = require('./friendsAndusers');
 const setupWebsocket = require('./websocket');
 
 
@@ -61,7 +61,7 @@ app.post('/setMessagesAsSeen', setMessagesAsSeen);
 
 
 // handling friends
-app.post('/friends', friends);
+app.post('/suggestions', suggestions);
 app.post('/inviting', inviting);
 app.post('/checkforInvites', checkforInvites);
 app.post('/delete_request', delete_request);

@@ -20,7 +20,7 @@ export default function Friends() {
   // get list of users from the database
   const [users, setUsers] = React.useState([])
   function getUsers() {
-    fetch(REACT_APP_SERVER_URL + '/friends', {
+    fetch(REACT_APP_SERVER_URL + '/suggestions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ export default function Friends() {
         </button>
       </div>
       {currentPage === 'suggestions' && (
-        <div className='friends-sugg-tag'>
+        <div className='friends-sugg-tag suggestions-list'>
           <h2>Suggestions</h2>
           {users.map((item) => (
             <FriendList name={item.fullname} key={item.id} userId={item.id} friend={item} />

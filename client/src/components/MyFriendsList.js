@@ -31,7 +31,7 @@ export default function MyFriendsList() {
   }
 
   return (
-    <div className="friends-sugg-tag friends-list">
+    <div className="friends-sugg-tag friends-list ">
       <h2>My Friends List</h2>
       {
         friends.map((friend) => {
