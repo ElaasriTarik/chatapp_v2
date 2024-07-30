@@ -7,6 +7,9 @@ export default function MessageTag({ friend, displayMessages, handleMessage }) {
 
   // Helper function to truncate a text
   function truncateText(text, maxLength) {
+    if (!text) {
+      return ('Start a conversation');
+    }
     if (text.length <= maxLength) {
       return text;
     }
