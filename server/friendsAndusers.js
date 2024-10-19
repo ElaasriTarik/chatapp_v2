@@ -46,8 +46,8 @@ const inviting = (req, res) => {
       return res.json({ success: false, message: 'Invite already sent' });
     } else {
       // Insert the invite into the friends table
-      const insertQuery = "INSERT INTO friends(user_id1, user_id2, inviter_name, recepient_name ,status) VALUES (?, ?, ?, ?, 'pending')";
-      connection.query(insertQuery, [inviterId, recepientId, inviter_name, recepient_name], (insertErr, insertResult) => {
+      const insertQuery = "INSERT INTO friends(user_id1, user_id2, inviter_name, recepient_name, date_sent, date_accepted, status) VALUES (?, ?, ?, ?, ?, ?, 'pending')";
+      connection.query(insertQuery, [inviterId, recepientId, inviter_name, recepient_name, new Date(), new Date()], (insertErr, insertResult) => {
         if (insertErr) {
           console.error('Error inserting invite:', insertErr);
           return res.status(500).json({ success: false, message: 'Internal server error' });
@@ -96,8 +96,8 @@ const delete_request = (req, res) => {
 const accept_request = (req, res) => {
   const { user_id1, user_id2 } = req.body;
   console.log(user_id1, user_id2);
-  const query = "UPDATE friends SET status = 'accepted' WHERE user_id1 = ? AND user_id2 = ?";
-  connection.query(query, [user_id1, user_id2], (err, response) => {
+  const query = "UPDATE friends SET status = 'accepted', date_accepted = ? WHERE user_id1 = ? AND user_id2 = ?";
+  connection.query(query, [new Date(), user_id1, user_id2], (err, response) => {
     if (err) throw err;
     res.json({ success: true });
   })
@@ -137,8 +137,7 @@ const getMyFriends = (req, res) => {
             f.user_id2 = u2.id
         WHERE 
             (f.user_id1 = ? OR f.user_id2 = ?) 
-            AND 
-            f.status = "accepted"
+
         ORDER BY 
             m.date_sent DESC
     `;

@@ -37,7 +37,7 @@
     "babel-jest": "^29.7.0"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "HOST=0.0.0.0  craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
@@ -60,7 +60,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://0.0.0.0:5000",
   "optionalDependencies": {
     "bufferutil": "^4.0.8",
     "utf-8-validate": "^5.0.10"

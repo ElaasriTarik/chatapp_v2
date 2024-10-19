@@ -31,8 +31,8 @@ const getPosts = (req, res) => {
   // const query = 'SELECT * FROM posts ORDER BY post_date DESC';
   const query = `
 SELECT posts.*,
-       (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.post_id) AS like_count,
-       (SELECT COUNT(*) FROM dislikes WHERE dislikes.post_id = posts.post_id) AS dislike_count,
+       (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.id) AS like_count,
+       (SELECT COUNT(*) FROM dislikes WHERE dislikes.post_id = posts.id) AS dislike_count,
        (SELECT profilePic_link FROM users WHERE users.id = posts.user_id) AS profilePic_link
 FROM posts
 ORDER BY posts.post_date DESC`;
@@ -41,7 +41,7 @@ ORDER BY posts.post_date DESC`;
 
     response = response.map(post => {
       return {
-        post_id: post.post_id,
+        post_id: post.id,
         content: post.content,
         user_id: post.user_id,
         name: post.name,
@@ -97,8 +97,7 @@ const handleDislike = (req, res) => {
   const data = {
     post_id: post_id,
     user_id: user_id,
-    disliked_by: disliked_by,
-    like_date: new Date()
+    disliked_by: disliked_by
   };
   const query = 'DELETE FROM likes WHERE post_id = ? AND user_id = ? AND liked_by = ?';
   connection.query(query, [post_id, user_id, disliked_by], (err, response) => {

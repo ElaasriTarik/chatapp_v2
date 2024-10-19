@@ -1,15 +1,23 @@
 const connection = require('./db_connection');
+const moment = require('moment');
+
 
 const sendMessage = (req, res) => {
   const { message, receiver, sender } = req.body;
-  // console.log(message, receiver, sender);
+  // const now = new Date();
+  const now = moment().format('YYYY-MM-DD HH:mm:ss');
+  console.log('Formatted Date:', now);
+
   const data = {
     content: message,
     receiver_id: receiver,
     sender_id: sender,
-    date_sent: moment.utc().add(1, 'hours').format()
-  }
+    date_sent: now, // Correct DATETIME format
+    seen: 'unseen' // Default value
+  };
+
   const query = 'INSERT INTO messages SET ?';
+
   connection.query(query, data, (err, response) => {
     if (err) throw err;
     res.json({
@@ -43,4 +51,16 @@ const setMessagesAsSeen = (req, res) => {
   });
 }
 
+
+// function to create a time
+function formatDateForMySQL(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
 module.exports = { sendMessage, getMessages, setMessagesAsSeen };
