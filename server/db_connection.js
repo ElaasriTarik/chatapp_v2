@@ -4,16 +4,16 @@ const { connect } = require('http2');
 const { resourceLimits } = require('worker_threads');
 const { escape } = require('querystring');
 
-const loginAdmin = 'avnadmin';
+const loginAdmin = process.env.LOGINAADMIN;
 const password = process.env.PASSWORD;
 const host = process.env.HOST;
 
 const connection = mysql.createConnection({
   host: host,
-  user: loginAdmin,
+  user: 'avnadmin',
   password: password,
   database: 'defaultdb',
-  port: 28743,
+  port: process.env.PORT,
   multipleStatements: true
 });
 
