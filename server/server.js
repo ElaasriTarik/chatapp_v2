@@ -96,6 +96,6 @@ app.get('/api/users/:id', (req, res) => {
   });
 })
 
-server.listen(port, '0.0.0.0', () => {
-  console.log(`Server running on port ${port}`);
+server.listen(5000, '0.0.0.0', () => {
+  console.log(`Server running on port ${5000}`);
 });

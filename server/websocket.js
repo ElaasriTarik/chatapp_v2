@@ -87,7 +87,7 @@ function sendMessage_func(messageData, ws) {
     content: content,
     receiver_id: parseInt(receiver),
     sender_id: parseInt(sender),
-    date_sent: moment.utc().add(1, 'hours').format()
+    date_sent: moment().utc().format('YYYY-MM-DD HH:mm:ss')
   }
   const query = 'INSERT INTO messages SET ?';
   connection.query(query, data, (err, response) => {
