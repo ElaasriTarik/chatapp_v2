@@ -4,6 +4,7 @@ import TypingBar from './TypingBar.js';
 import MessageTag from './MessageTag.js';
 import Left from '../icons/left.png';
 import moreIcon from '../icons/more.png';
+import notificationService from './Notifications.js';
 
 import '../styles/Friends.css'
 
@@ -15,7 +16,9 @@ export default function Messages({ isLoggedIn }) {
   const [contact_fullname, setContact_fullname] = React.useState('');
   const [isTyping, setIsTyping] = React.useState(false);
   const [messages, setMessages] = React.useState([]);
-
+  React.useEffect(() => {
+    notificationService.init();
+  })
   React.useEffect(() => {
 
     if (messages.length > 0) {

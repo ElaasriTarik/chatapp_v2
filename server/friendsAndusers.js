@@ -168,4 +168,15 @@ const getMyFriends = (req, res) => {
   });
 }
 
-module.exports = { suggestions, inviting, checkforInvites, delete_request, accept_request, getMyFriends };
+// get a user by id
+const getUserById = (req, res) => {
+  const { user_id } = req.body;
+  const query = 'SELECT * FROM users WHERE id = ?';
+  connection.query(query, user_id, (err, response) => {
+    if (err) throw err;
+
+    res.json(response);
+  });
+}
+
+module.exports = { suggestions, inviting, checkforInvites, delete_request, accept_request, getMyFriends, getUserById };

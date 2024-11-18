@@ -1,12 +1,14 @@
 import React from "react";
 import sendLogo from '../icons/send2.png';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
+import NotificationService from './Notifications.js';
 // import io from 'socket.io-client';
 
 
 export default function TypingBar({ getMessages, setMessages, contact_fullname, setIsTyping, setIsSeen }) {
   const REACT_APP_SERVER_URL = process.env.REACT_APP_API_URL;
   const [socket, setSocket] = React.useState(null);
+
   React.useEffect(() => {
     const socket = new W3CWebSocket(`wss://${REACT_APP_SERVER_URL.split('//')[1]}`);
     setSocket(socket);
@@ -29,8 +31,25 @@ export default function TypingBar({ getMessages, setMessages, contact_fullname, 
         }
 
       } else {
-
         setMessages(prevMessages => [...prevMessages, data]);
+        // Show notification only if the message is not from the current user
+        // and the window is not focused
+        if (!document.hasFocus()) {
+          // get the sender name
+          fetch(`${REACT_APP_SERVER_URL}/getUserById`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: data.sender_id })
+          })
+            .then(response => response.json())
+            .then(userData => {
+              console.log(userData.fullname);
+              NotificationService.showNotification(data.content, userData[0].fullname);
+            })
+          // NotificationService.showNotification(data.content, data.sender);
+        }
       }
     };
     socket.onerror = function (event) {
